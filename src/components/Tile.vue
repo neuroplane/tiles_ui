@@ -326,7 +326,7 @@ const props = defineProps({
 }
 
 .tile--color-cyan {
-  --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #5a3a7a 100%);
+  --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #303e85 100%);
   --tile-text: #ffffff;
 }
 
@@ -336,7 +336,7 @@ const props = defineProps({
 }
 
 .tile--color-amber {
-  --tile-bg: linear-gradient(135deg, #d9c8b0 0%, #d99e87 100%);
+  --tile-bg: linear-gradient(135deg, #ffd497 0%, #c29d69 100%);
   --tile-text: #333333;
 }
 
