@@ -12,6 +12,7 @@
       :value="tile.value"
       :text="tile.text"
       :icon="tile.icon"
+      :items="tile.items"
     />
   </div>
 </template>

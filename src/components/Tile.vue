@@ -54,6 +54,22 @@
       <div class="tile__text">{{ text }}</div>
     </div>
     
+    <!-- Тип: список -->
+    <div v-else-if="type === 'list'" class="tile__content tile__content--list">
+      <div v-if="title" class="tile__title">{{ title }}</div>
+      <ul class="tile__list">
+        <li v-for="(item, index) in items" :key="index" class="tile__list-item">
+          <span v-if="item.icon" class="tile__list-icon">
+            <svg :viewBox="item.icon.viewBox" class="tile__list-icon-svg">
+              <path :d="item.icon.path" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="tile__list-text">{{ item.text }}</span>
+          <span v-if="item.value" class="tile__list-value">{{ item.value }}</span>
+        </li>
+      </ul>
+    </div>
+    
     <!-- Тип: по умолчанию (пустой) -->
     <div v-else class="tile__content tile__content--default"></div>
   </div>
@@ -76,7 +92,7 @@ const props = defineProps({
   type: {
     type: String,
     default: 'default',
-    validator: (value) => ['default', 'number', 'title-value', 'icon-value', 'title-icon-value', 'text', 'title-text'].includes(value)
+    validator: (value) => ['default', 'number', 'title-value', 'icon-value', 'title-icon-value', 'text', 'title-text', 'list'].includes(value)
   },
   badge: {
     type: [String, Number],
@@ -106,6 +122,11 @@ const props = defineProps({
   icon: {
     type: Object,
     default: null
+  },
+  // Для типа list (массив элементов списка)
+  items: {
+    type: Array,
+    default: () => []
   }
 })
 </script>
@@ -151,10 +172,10 @@ const props = defineProps({
   position: absolute;
   top: 0%;
   right: 0%;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.6);
   color: #333;
   padding: 4px 8px;
-  font-size: 8px;
+  font-size: 12px;
   font-weight: 900;
   z-index: 10;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -279,6 +300,61 @@ const props = defineProps({
   font-size: 14px;
 }
 
+/* Тип: список */
+.tile__content--list {
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+
+
+.tile__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+
+
+.tile__list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.tile__list-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tile__list-icon-svg {
+  width: 16px;
+  height: 16px;
+  opacity: 0.9;
+}
+
+.tile__list-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile__list-value {
+  font-weight: 600;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
 /* Цвета тайлов */
 .tile--color-blue {
   --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #2a3880 100%);
@@ -317,12 +393,12 @@ const props = defineProps({
 
 .tile--color-yellow {
   --tile-bg: linear-gradient(135deg, #ebb800 0%, #c09600 100%);
-  --tile-text: #333333;
+  --tile-text: #ffffff;
 }
 
 .tile--color-indigo {
-  --tile-bg: linear-gradient(135deg, #8dd4c8 0%, #659a91 100%);
-  --tile-text: #333333;
+  --tile-bg: linear-gradient(135deg, #437a71 0%, #215048 100%);
+  --tile-text: #ffffff;
 }
 
 .tile--color-cyan {
@@ -332,12 +408,12 @@ const props = defineProps({
 
 .tile--color-lime {
   --tile-bg: linear-gradient(135deg, #6dd896 0%, #52a572 100%);
-  --tile-text: #333333;
+  --tile-text: #ffffff;
 }
 
 .tile--color-amber {
-  --tile-bg: linear-gradient(135deg, #ffd497 0%, #c29d69 100%);
-  --tile-text: #333333;
+  --tile-bg: linear-gradient(135deg, #b88e52 0%, #7b5f38 100%);
+  --tile-text: #ffffff;
 }
 
 .tile {
