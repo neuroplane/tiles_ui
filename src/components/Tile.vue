@@ -1,0 +1,335 @@
+<template>
+  <div
+    class="tile"
+    :class="[
+      `tile--${size}`,
+      `tile--color-${color}`,
+      `tile--type-${type}`
+    ]"
+  >
+    <div v-if="badge" class="tile__badge">{{ badge }}</div>
+    
+    <!-- Тип: только число -->
+    <div v-if="type === 'number'" class="tile__content tile__content--number">
+      <span class="tile__number">{{ number }}</span>
+    </div>
+    
+    <!-- Тип: заголовок и значение -->
+    <div v-else-if="type === 'title-value'" class="tile__content tile__content--title-value">
+      <div class="tile__title">{{ title }}</div>
+      <div class="tile__value">{{ value }}</div>
+    </div>
+    
+    <!-- Тип: иконка и значение -->
+    <div v-else-if="type === 'icon-value'" class="tile__content tile__content--icon-value">
+      <div class="tile__icon">
+        <svg v-if="icon" :viewBox="icon.viewBox" class="tile__icon-svg">
+          <path :d="icon.path" fill="currentColor" />
+        </svg>
+      </div>
+      <div class="tile__value">{{ value }}</div>
+    </div>
+    
+    <!-- Тип: заголовок, иконка и значение -->
+    <div v-else-if="type === 'title-icon-value'" class="tile__content tile__content--title-icon-value">
+      <div class="tile__title">{{ title }}</div>
+      <div class="tile__icon">
+        <svg v-if="icon" :viewBox="icon.viewBox" class="tile__icon-svg">
+          <path :d="icon.path" fill="currentColor" />
+        </svg>
+      </div>
+      <div class="tile__value">{{ value }}</div>
+    </div>
+    
+    <!-- Тип: текст -->
+    <div v-else-if="type === 'text'" class="tile__content tile__content--text">
+      <div class="tile__text">{{ text }}</div>
+    </div>
+    
+    <!-- Тип: заголовок и текст -->
+    <div v-else-if="type === 'title-text'" class="tile__content tile__content--title-text">
+      <div class="tile__title">{{ title }}</div>
+      <div class="tile__text">{{ text }}</div>
+    </div>
+    
+    <!-- Тип: по умолчанию (пустой) -->
+    <div v-else class="tile__content tile__content--default"></div>
+  </div>
+</template>
+
+<script setup>
+import { defineProps } from 'vue'
+
+const props = defineProps({
+  size: {
+    type: String,
+    default: '1x1',
+    validator: (value) => ['1x1', '2x1', '1x2', '2x2'].includes(value)
+  },
+  color: {
+    type: String,
+    default: 'blue',
+    validator: (value) => ['blue', 'green', 'red', 'orange', 'purple', 'pink', 'teal', 'yellow', 'indigo', 'cyan', 'lime', 'amber'].includes(value)
+  },
+  type: {
+    type: String,
+    default: 'default',
+    validator: (value) => ['default', 'number', 'title-value', 'icon-value', 'title-icon-value', 'text', 'title-text'].includes(value)
+  },
+  badge: {
+    type: [String, Number],
+    default: null
+  },
+  // Для типа number
+  number: {
+    type: [String, Number],
+    default: null
+  },
+  // Для типов с заголовком
+  title: {
+    type: String,
+    default: ''
+  },
+  // Для типов со значением
+  value: {
+    type: [String, Number],
+    default: null
+  },
+  // Для типов с текстом
+  text: {
+    type: String,
+    default: ''
+  },
+  // Для типов с иконкой (SVG path)
+  icon: {
+    type: Object,
+    default: null
+  }
+})
+</script>
+
+<style scoped>
+.tile {
+  position: relative;
+  background: var(--tile-bg);
+  color: var(--tile-text);
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+
+
+/* Размеры тайлов через grid span */
+.tile--1x1 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.tile--2x1 {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.tile--1x2 {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.tile--2x2 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* Бейдж */
+.tile__badge {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  background: rgba(255, 255, 255, 0.5);
+  color: #333;
+  padding: 4px 8px;
+  font-size: 8px;
+  font-weight: 600;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Контент тайла */
+.tile__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Тип: только число */
+.tile__content--number {
+  justify-content: center;
+}
+
+.tile__number {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tile--2x1 .tile__number,
+.tile--2x2 .tile__number {
+  font-size: 64px;
+}
+
+/* Тип: заголовок и значение */
+.tile__content--title-value {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.tile__title {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.tile__value {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tile--2x1 .tile__value,
+.tile--2x2 .tile__value {
+  font-size: 42px;
+}
+
+/* Тип: иконка и значение */
+.tile__content--icon-value {
+  gap: 12px;
+}
+
+.tile__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile__icon-svg {
+  width: 48px;
+  height: 48px;
+}
+
+.tile--2x1 .tile__icon-svg,
+.tile--2x2 .tile__icon-svg {
+  width: 64px;
+  height: 64px;
+}
+
+/* Тип: заголовок, иконка и значение */
+.tile__content--title-icon-value {
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.tile__content--title-icon-value .tile__title {
+  align-self: flex-start;
+  margin-bottom: 0;
+}
+
+/* Тип: текст */
+.tile__content--text {
+  justify-content: center;
+  text-align: center;
+}
+
+.tile__text {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.tile--2x1 .tile__text,
+.tile--2x2 .tile__text {
+  font-size: 18px;
+}
+
+/* Тип: заголовок и текст */
+.tile__content--title-text {
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.tile__content--title-text .tile__text {
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Цвета тайлов */
+.tile--color-blue {
+  --tile-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --tile-text: #ffffff;
+}
+
+.tile--color-green {
+  --tile-bg: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  --tile-text: #ffffff;
+}
+
+.tile--color-red {
+  --tile-bg: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+  --tile-text: #ffffff;
+}
+
+.tile--color-orange {
+  --tile-bg: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --tile-text: #ffffff;
+}
+
+.tile--color-purple {
+  --tile-bg: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --tile-text: #ffffff;
+}
+
+.tile--color-pink {
+  --tile-bg: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  --tile-text: #ffffff;
+}
+
+.tile--color-teal {
+  --tile-bg: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+  --tile-text: #ffffff;
+}
+
+.tile--color-yellow {
+  --tile-bg: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  --tile-text: #333333;
+}
+
+.tile--color-indigo {
+  --tile-bg: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  --tile-text: #333333;
+}
+
+.tile--color-cyan {
+  --tile-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --tile-text: #ffffff;
+}
+
+.tile--color-lime {
+  --tile-bg: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+  --tile-text: #333333;
+}
+
+.tile--color-amber {
+  --tile-bg: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  --tile-text: #333333;
+}
+
+.tile {
+  background: var(--tile-bg);
+}
+</style>
