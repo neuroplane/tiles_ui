@@ -33,12 +33,14 @@
     <!-- Тип: заголовок, иконка и значение -->
     <div v-else-if="type === 'title-icon-value'" class="tile__content tile__content--title-icon-value">
       <div class="tile__title">{{ title }}</div>
-      <div class="tile__icon">
-        <svg v-if="icon" :viewBox="icon.viewBox" class="tile__icon-svg">
-          <path :d="icon.path" fill="currentColor" />
-        </svg>
+      <div class="tile__icon-value-group">
+        <div class="tile__icon">
+          <svg v-if="icon" :viewBox="icon.viewBox" class="tile__icon-svg">
+            <path :d="icon.path" fill="currentColor" />
+          </svg>
+        </div>
+        <div class="tile__value">{{ value }}</div>
       </div>
-      <div class="tile__value">{{ value }}</div>
     </div>
     
     <!-- Тип: текст -->
@@ -114,7 +116,7 @@ const props = defineProps({
   background: var(--tile-bg);
   color: var(--tile-text);
   padding: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -149,11 +151,11 @@ const props = defineProps({
   position: absolute;
   top: 0%;
   right: 0%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.7);
   color: #333;
   padding: 4px 8px;
   font-size: 8px;
-  font-weight: 600;
+  font-weight: 900;
   z-index: 10;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -188,13 +190,14 @@ const props = defineProps({
 .tile__content--title-value {
   justify-content: space-between;
   align-items: flex-start;
+  text-transform: uppercase;
+  
 }
 
 .tile__title {
   font-size: 14px;
   font-weight: 500;
   opacity: 0.9;
-  margin-bottom: 8px;
 }
 
 .tile__value {
@@ -211,6 +214,7 @@ const props = defineProps({
 /* Тип: иконка и значение */
 .tile__content--icon-value {
   gap: 12px;
+  justify-content: center;
 }
 
 .tile__icon {
@@ -226,19 +230,26 @@ const props = defineProps({
 
 .tile--2x1 .tile__icon-svg,
 .tile--2x2 .tile__icon-svg {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
 }
 
 /* Тип: заголовок, иконка и значение */
 .tile__content--title-icon-value {
-  gap: 12px;
+  justify-content: space-between;
   align-items: flex-start;
 }
 
 .tile__content--title-icon-value .tile__title {
   align-self: flex-start;
-  margin-bottom: 0;
+}
+
+.tile__icon-value-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: auto;
 }
 
 /* Тип: текст */
@@ -260,7 +271,7 @@ const props = defineProps({
 /* Тип: заголовок и текст */
 .tile__content--title-text {
   align-items: flex-start;
-  gap: 8px;
+  justify-content: space-between;
 }
 
 .tile__content--title-text .tile__text {
@@ -270,62 +281,62 @@ const props = defineProps({
 
 /* Цвета тайлов */
 .tile--color-blue {
-  --tile-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #2a3880 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-green {
-  --tile-bg: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  --tile-bg: linear-gradient(135deg, #00a629 0%, #007a1e 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-red {
-  --tile-bg: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+  --tile-bg: linear-gradient(135deg, #c9283a 0%, #951d2b 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-orange {
-  --tile-bg: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --tile-bg: linear-gradient(135deg, #ff6600 0%, rgb(187, 75, 0) 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-purple {
-  --tile-bg: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --tile-bg: linear-gradient(135deg, #bb29bb 0%, #911f91 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-pink {
-  --tile-bg: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  --tile-bg: linear-gradient(135deg, #ff96a7 0%, #c16f7d 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-teal {
-  --tile-bg: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+  --tile-bg: linear-gradient(135deg, #008080 0%, #005d5d 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-yellow {
-  --tile-bg: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  --tile-bg: linear-gradient(135deg, #ebb800 0%, #c09600 100%);
   --tile-text: #333333;
 }
 
 .tile--color-indigo {
-  --tile-bg: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  --tile-bg: linear-gradient(135deg, #8dd4c8 0%, #659a91 100%);
   --tile-text: #333333;
 }
 
 .tile--color-cyan {
-  --tile-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #5a3a7a 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-lime {
-  --tile-bg: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+  --tile-bg: linear-gradient(135deg, #6dd896 0%, #52a572 100%);
   --tile-text: #333333;
 }
 
 .tile--color-amber {
-  --tile-bg: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  --tile-bg: linear-gradient(135deg, #d9c8b0 0%, #d99e87 100%);
   --tile-text: #333333;
 }
 

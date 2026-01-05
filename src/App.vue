@@ -74,17 +74,16 @@ const tiles = ref([
     size: '2x1',
     color: 'pink',
     type: 'title-icon-value',
-    title: 'Active Users',
     icon: icons.user,
     value: '3,245'
   },
   
   // Тайлы 1x2
   {
-    size: '1x2',
+    size: '1x1',
     color: 'teal',
     type: 'title-text',
-    title: 'Notifications',
+
     text: 'You have 5 new messages and 3 pending tasks',
     badge: 8
   },
@@ -98,7 +97,7 @@ const tiles = ref([
   
   // Тайлы 2x2
   {
-    size: '2x2',
+    size: '2x1',
     color: 'indigo',
     type: 'title-text',
     title: 'Dashboard Overview',
@@ -165,7 +164,7 @@ const tiles = ref([
 <style scoped>
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #25326b 0%, #362448 100%);
+  background: linear-gradient(135deg, #162c42 0%, #0c1823 100%);
   padding-bottom: 40px;
 }
 
