@@ -1,5 +1,5 @@
 <template>
-  <div class="tiles-container">
+  <div class="tiles-container" :style="{ maxWidth }">
     <Tile
       v-for="(tile, index) in tiles"
       :key="index"
@@ -27,6 +27,10 @@ defineProps({
   tiles: {
     type: Array,
     required: true
+  },
+  maxWidth: {
+    type: [String, Number],
+    default: '100%'
   }
 })
 
@@ -47,6 +51,8 @@ const handleTileClick = (tile, index) => {
   padding: 20px;
   width: 100%;
   max-width: 100%;
+  margin: 0 auto;
+  justify-content: center;
 }
 
 /* Для адаптивности на больших экранах - больше колонок */

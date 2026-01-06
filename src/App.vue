@@ -54,12 +54,13 @@ const tiles = ref([
     color: 'blue',
     type: 'number',
     number: 42,
-    badge: '+12'
+    badge: 'Прирост'
   },
   {
     size: '2x1',
     color: 'green',
     type: 'number',
+    badge: 'Долги по СМК',
     number: 1028
   },
   {
@@ -67,6 +68,7 @@ const tiles = ref([
     color: 'red',
     type: 'icon-value',
     icon: icons.chart,
+    badge: 'Динамика',
     value: '85%'
   },
   {
@@ -236,7 +238,7 @@ const tiles = ref([
 <template>
   <div class="app">
 
-    <TilesContainer :tiles="tiles" />
+    <TilesContainer :tiles="tiles" maxWidth="1200px" />
   </div>
 </template>
 
