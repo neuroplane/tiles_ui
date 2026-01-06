@@ -4,8 +4,10 @@
     :class="[
       `tile--${size}`,
       `tile--color-${color}`,
-      `tile--type-${type}`
+      `tile--type-${type}`,
+      { 'tile--clickable': clickable }
     ]"
+    @click="clickable && $emit('click')"
   >
     <div v-if="badge" class="tile__badge">{{ badge }}</div>
     
@@ -127,8 +129,15 @@ const props = defineProps({
   items: {
     type: Array,
     default: () => []
+  },
+  // Кликабельность тайла
+  clickable: {
+    type: Boolean,
+    default: false
   }
 })
+
+defineEmits(['click'])
 </script>
 
 <style scoped>
@@ -137,11 +146,24 @@ const props = defineProps({
   background: var(--tile-bg);
   color: var(--tile-text);
   padding: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55); */
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+.tile--clickable {
   cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.tile--clickable:hover {
+  transform: scale(1.02);
+  opacity: 0.9;
+}
+
+.tile--clickable:active {
+  transform: scale(0.98);
 }
 
 
@@ -216,9 +238,11 @@ const props = defineProps({
 }
 
 .tile__title {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 300;
   opacity: 0.9;
+  
+  text-transform: uppercase;
 }
 
 .tile__value {
@@ -293,6 +317,7 @@ const props = defineProps({
 .tile__content--title-text {
   align-items: flex-start;
   justify-content: space-between;
+  
 }
 
 .tile__content--title-text .tile__text {
@@ -357,62 +382,62 @@ const props = defineProps({
 
 /* Цвета тайлов */
 .tile--color-blue {
-  --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #2a3880 100%);
+  --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #3b4c9f 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-green {
-  --tile-bg: linear-gradient(135deg, #00a629 0%, #007a1e 100%);
+  --tile-bg: linear-gradient(135deg, #00a629 0%, #008521 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-red {
-  --tile-bg: linear-gradient(135deg, #c9283a 0%, #951d2b 100%);
+  --tile-bg: linear-gradient(135deg, #c9283a 0%, #a1202e 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-orange {
-  --tile-bg: linear-gradient(135deg, #ff6600 0%, rgb(187, 75, 0) 100%);
+  --tile-bg: linear-gradient(135deg, #ff6600 0%, #cc5200 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-purple {
-  --tile-bg: linear-gradient(135deg, #bb29bb 0%, #911f91 100%);
+  --tile-bg: linear-gradient(135deg, #bb29bb 0%, #962196 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-pink {
-  --tile-bg: linear-gradient(135deg, #ff96a7 0%, #c16f7d 100%);
+  --tile-bg: linear-gradient(135deg, #ff96a7 0%, #cc7886 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-teal {
-  --tile-bg: linear-gradient(135deg, #008080 0%, #005d5d 100%);
+  --tile-bg: linear-gradient(135deg, #008080 0%, #006666 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-yellow {
-  --tile-bg: linear-gradient(135deg, #ebb800 0%, #c09600 100%);
+  --tile-bg: linear-gradient(135deg, #ebb800 0%, #bc9300 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-indigo {
-  --tile-bg: linear-gradient(135deg, #437a71 0%, #215048 100%);
+  --tile-bg: linear-gradient(135deg, #437a71 0%, #36625a 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-cyan {
-  --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #303e85 100%);
+  --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #3b4c9f 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-lime {
-  --tile-bg: linear-gradient(135deg, #6dd896 0%, #52a572 100%);
+  --tile-bg: linear-gradient(135deg, #6dd896 0%, #57ad78 100%);
   --tile-text: #ffffff;
 }
 
 .tile--color-amber {
-  --tile-bg: linear-gradient(135deg, #b88e52 0%, #7b5f38 100%);
+  --tile-bg: linear-gradient(135deg, #b88e52 0%, #937242 100%);
   --tile-text: #ffffff;
 }
 

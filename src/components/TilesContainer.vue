@@ -13,6 +13,8 @@
       :text="tile.text"
       :icon="tile.icon"
       :items="tile.items"
+      :clickable="tile.clickable"
+      @click="tile.clickable && handleTileClick(tile, index)"
     />
   </div>
 </template>
@@ -27,6 +29,12 @@ defineProps({
     required: true
   }
 })
+
+const handleTileClick = (tile, index) => {
+  if (tile.onClick) {
+    tile.onClick(tile, index)
+  }
+}
 </script>
 
 <style scoped>

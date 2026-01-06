@@ -57,10 +57,10 @@ const tiles = ref([
     badge: '+12'
   },
   {
-    size: '1x1',
+    size: '2x1',
     color: 'green',
     type: 'number',
-    number: 128
+    number: 1028
   },
   {
     size: '1x1',
@@ -118,7 +118,12 @@ const tiles = ref([
     type: 'title-text',
     title: 'Dashboard Overview',
     text: 'Welcome to your dashboard. Here you can see all your important metrics and statistics at a glance.',
-    badge: 'Pro'
+    badge: 'Pro',
+    clickable: true,
+    onClick: (tile, index) => {
+      console.log('Клик по тайлу:', tile, index)
+      // Ваша логика обработки клика
+    }
   },
   {
     size: '2x2',
@@ -133,8 +138,12 @@ const tiles = ref([
     size: '2x2',
     color: 'red',
     type: 'list',
-    title: 'Recent Activities',
     items: [
+      { text: 'New ticket created', value: '2h ago', icon: icons.ticket },
+      { text: 'Task completed', value: '5h ago', icon: icons.task },
+      { text: 'User registered', value: '1d ago', icon: icons.user },
+      { text: 'System update', value: '2d ago', icon: icons.settings },
+      { text: 'Report generated', value: '3d ago', icon: icons.chart },
       { text: 'New ticket created', value: '2h ago', icon: icons.ticket },
       { text: 'Task completed', value: '5h ago', icon: icons.task },
       { text: 'User registered', value: '1d ago', icon: icons.user },
