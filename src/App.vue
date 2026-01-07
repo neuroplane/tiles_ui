@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import TilesContainer from './components/TilesContainer.vue'
+import Dialog from './components/Dialog.vue'
+import Button from './components/Button.vue'
+
+const showDialog = ref(false)
 
 // Примеры иконок (SVG paths)
 const icons = {
@@ -47,36 +51,57 @@ const icons = {
 }
 
 // Примеры тайлов
+// Типы: 
+// icon-value
+// text
+// number
+// list
+// title-icon-value
+// title-text
+// title-value
 const tiles = ref([
   // Тайлы 1x1
+  {
+    size: '2x1',
+    color: 'blue',
+    type: 'title-value',
+    title: 'Долги СМК',
+    value: '2 500'
+  },
   {
     size: '1x1',
     color: 'blue',
     type: 'number',
-    number: 42,
-    badge: 'Прирост'
+    number: 8,
+    badge: 'На смене'
   },
   {
     size: '2x1',
     color: 'green',
-    type: 'number',
-    badge: 'Долги по СМК',
-    number: 1028
+    type: 'title-value',
+    value: 'СМК',
+    title: 'На льду'
   },
   {
     size: '1x1',
     color: 'red',
-    type: 'icon-value',
-    icon: icons.chart,
-    badge: 'Динамика',
-    value: '85%'
+    type: 'number',
+    badge: 'Задачи',
+    number: 3
   },
   {
     size: '1x1',
     color: 'orange',
-    type: 'icon-value',
-    icon: icons.user,
-    value: '1.2K'
+    type: 'number',
+    number: 19,
+    badge: 'Заказы'
+  },
+  {
+    size: '1x1',
+    color: 'orange',
+    type: 'number',
+    number: '82%',
+    badge: 'Явка'
   },
   
   // Тайлы 2x1
@@ -124,33 +149,68 @@ const tiles = ref([
     clickable: true,
     onClick: (tile, index) => {
       console.log('Клик по тайлу:', tile, index)
-      // Ваша логика обработки клика
+      showDialog.value = true
     }
   },
   {
-    size: '2x2',
+    size: '2x1',
     color: 'cyan',
-    type: 'title-icon-value',
+    type: 'title-value',
     title: 'System Status',
-    icon: icons.settings,
     value: 'All Systems Operational',
-    badge: 'OK'
+    badge: 'Active'
   },
   {
-    size: '2x2',
-    color: 'red',
+    size: '2x1',
+    color: 'blue',
     type: 'list',
+    title: 'Праздники',
     items: [
-      { text: 'New ticket created', value: '2h ago', icon: icons.ticket },
-      { text: 'Task completed', value: '5h ago', icon: icons.task },
-      { text: 'User registered', value: '1d ago', icon: icons.user },
-      { text: 'System update', value: '2d ago', icon: icons.settings },
-      { text: 'Report generated', value: '3d ago', icon: icons.chart },
-      { text: 'New ticket created', value: '2h ago', icon: icons.ticket },
-      { text: 'Task completed', value: '5h ago', icon: icons.task },
-      { text: 'User registered', value: '1d ago', icon: icons.user },
-      { text: 'System update', value: '2d ago', icon: icons.settings },
-      { text: 'Report generated', value: '3d ago', icon: icons.chart }
+      { text: 'Рождество Христово', value: '7.01.2026'},
+      { text: 'День работника прокуратуры Российской Федерации', value: '12.01.2026'},
+      { text: 'День российской печати', value: '13.01.2026'},
+      //{ text: 'System update', value: '2d ago', icon: icons.settings },
+      //{ text: 'Report generated', value: '3d ago', icon: icons.chart },
+      //{ text: 'New ticket created', value: '2h ago', icon: icons.ticket },
+      //{ text: 'Task completed', value: '5h ago', icon: icons.task },
+      //{ text: 'User registered', value: '1d ago', icon: icons.user },
+      //{ text: 'System update', value: '2d ago', icon: icons.settings },
+      //{ text: 'Report generated', value: '3d ago', icon: icons.chart }
+    ]
+  },
+  {
+    size: '2x1',
+    color: 'blue',
+    type: 'list',
+    title: 'Онлайн-кассы',
+    items: [
+      { text: '18:30', value: 'В3 · Д1 · К2'},
+      { text: '19:00', value: '1 · 1 · 2'},
+      { text: '19:30', value: '2 · 1 · 2'},
+      { text: '20:00', value: '3 · 1 · 2'},
+    ]
+  },
+  {
+    size: '2x1',
+    color: 'blue',
+    type: 'list',
+    title: 'Реестр оплат',
+    items: [
+      { text: 'Аренда большого льда', value: '9 000'},
+      { text: 'Оплата услуги. СМК', value: '500'},
+      { text: 'Оплата абонемента. УТГФ', value: '12 000'},
+      { text: 'Оплата абонемента. УТГХ', value: '7 500'},
+    ]
+  },
+  {
+    size: '1x1',
+    color: 'blue',
+    type: 'list',
+    title: 'Дни рождения',
+    items: [
+      { text: 'БояркинаАЕ'},
+      { text: 'БояркинаАЕ'},
+      { text: 'БояркинаАЕ'},
     ]
   },
   
@@ -237,8 +297,18 @@ const tiles = ref([
 
 <template>
   <div class="app">
-
     <TilesContainer :tiles="tiles" maxWidth="1200px" />
+    
+    <!-- Пример диалогового окна -->
+    <Dialog v-model="showDialog" title="Пример диалога">
+      <p>Это тело диалогового окна. Здесь может быть любой контент.</p>
+      <p>Диалог автоматически центрируется и имеет затемненный фон.</p>
+      
+      <template #footer>
+        <Button size="small" variant="secondary" @click="showDialog = false">Закрыть</Button>
+        <Button size="small" variant="primary" @click="showDialog = false">ОК</Button>
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -267,4 +337,5 @@ const tiles = ref([
   font-size: 1.2em;
   opacity: 0.9;
 }
+
 </style>
