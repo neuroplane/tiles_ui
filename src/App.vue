@@ -78,7 +78,7 @@ const tiles = ref([
   {
     size: '2x1',
     color: 'green',
-    type: 'title-value',
+    type: 'title-text',
     value: 'СМК',
     title: 'На льду'
   },

@@ -304,8 +304,9 @@ defineEmits(['click'])
 }
 
 .tile__text {
-  font-size: 16px;
-  line-height: 1.4;
+    font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .tile--2x1 .tile__text,
