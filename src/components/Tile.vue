@@ -189,6 +189,23 @@ defineEmits(['click'])
   grid-row: span 2;
 }
 
+/* На мобильных устройствах ограничиваем размер больших тайлов */
+@media (max-width: 600px) {
+  .tile--2x1 {
+    grid-column: span 3;
+  }
+  
+  .tile--1x2 {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+  
+  .tile--2x2 {
+    grid-column: span 3;
+    grid-row: span 2;
+  }
+}
+
 /* Бейдж */
 .tile__badge {
   position: absolute;
@@ -304,9 +321,8 @@ defineEmits(['click'])
 }
 
 .tile__text {
-    font-size: 48px;
-  font-weight: 700;
-  line-height: 1;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 .tile--2x1 .tile__text,

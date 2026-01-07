@@ -65,9 +65,10 @@ const handleTileClick = (tile, index) => {
 /* Для маленьких экранов */
 @media (max-width: 600px) {
   .tiles-container {
-    grid-template-columns: repeat(auto-fill, 140px);
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: calc((100vw - 40px - 24px) / 3);
     padding: 10px;
-    justify-content: center;
+    gap: 8px;
   }
 }
 </style>
