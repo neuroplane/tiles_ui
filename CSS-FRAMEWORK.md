@@ -1,32 +1,35 @@
-# Tiles UI - CSS Framework
+# Tiles UI - Metro UI CSS Framework
 
-Tiles UI можно использовать как чистый CSS фреймворк без Vue компонентов.
+<!-- 
+  Tiles UI - это CSS фреймворк в стиле Metro UI для создания современных интерфейсов на основе тайлов.
+  Можно использовать как чистый CSS фреймворк без Vue компонентов.
+-->
 
 ## 📦 Установка
 
-### Вариант 1: Через npm (если опубликовано)
+<!-- Вариант 1: Через npm (если опубликовано) -->
 ```bash
 npm install tiles-ui
 ```
 
-### Вариант 2: Прямое использование CSS файла
+<!-- Вариант 2: Прямое использование CSS файла -->
 Скопируйте файл `dist/css/tiles-ui.css` в ваш проект.
 
 ## 🚀 Использование
 
 ### 1. Подключение CSS
 
-**В HTML:**
+<!-- В HTML -->
 ```html
 <link rel="stylesheet" href="path/to/tiles-ui.css">
 ```
 
-**В CSS/SCSS:**
+<!-- В CSS/SCSS -->
 ```css
 @import 'tiles-ui/dist/css/tiles-ui.css';
 ```
 
-**В JavaScript (если используете bundler):**
+<!-- В JavaScript (если используете bundler) -->
 ```javascript
 import 'tiles-ui/dist/css/tiles-ui.css'
 ```
@@ -35,15 +38,17 @@ import 'tiles-ui/dist/css/tiles-ui.css'
 
 #### Тайлы
 
-**HTML структура:**
+<!-- Базовый пример тайла 1x1 с числом -->
 ```html
 <div class="tiles-container">
+  <!-- Тайл 1x1 с числом -->
   <div class="tile tile--1x1 tile--color-blue">
     <div class="tile__content tile__content--number">
       <span class="tile__number">42</span>
     </div>
   </div>
   
+  <!-- Тайл 2x1 с заголовком и значением -->
   <div class="tile tile--2x1 tile--color-green">
     <div class="tile__badge">New</div>
     <div class="tile__content tile__content--title-value">
@@ -51,28 +56,83 @@ import 'tiles-ui/dist/css/tiles-ui.css'
       <div class="tile__value">$12,450</div>
     </div>
   </div>
+  
+  <!-- Тайл 3x1 с заголовком и значением -->
+  <div class="tile tile--3x1 tile--color-purple">
+    <div class="tile__content tile__content--title-value">
+      <div class="tile__title">Monthly Sales</div>
+      <div class="tile__value">$45,230</div>
+    </div>
+  </div>
+  
+  <!-- Тайл 1x2 с заголовком и текстом -->
+  <div class="tile tile--1x2 tile--color-teal">
+    <div class="tile__badge">8</div>
+    <div class="tile__content tile__content--title-text">
+      <div class="tile__title">Notifications</div>
+      <div class="tile__text">You have 5 new messages</div>
+    </div>
+  </div>
+  
+  <!-- Тайл 2x2 со списком -->
+  <div class="tile tile--2x2 tile--color-cyan">
+    <div class="tile__content tile__content--list">
+      <div class="tile__title">Recent Activities</div>
+      <ul class="tile__list">
+        <li class="tile__list-item">
+          <span class="tile__list-text">New ticket created</span>
+          <span class="tile__list-value">2h ago</span>
+        </li>
+        <li class="tile__list-item">
+          <span class="tile__list-text">Task completed</span>
+          <span class="tile__list-value">5h ago</span>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 ```
 
 #### Кнопки
 
+<!-- Основная кнопка -->
 ```html
 <button class="button button--primary button--medium">Нажми</button>
+```
+
+<!-- Вторичная кнопка маленького размера -->
+```html
 <button class="button button--secondary button--small">Отмена</button>
+```
+
+<!-- Контурная кнопка большого размера -->
+```html
 <button class="button button--outline button--large">Подробнее</button>
+```
+
+<!-- Отключенная кнопка -->
+```html
+<button class="button button--primary button--disabled">Недоступно</button>
 ```
 
 #### Диалоги
 
+<!-- Полный пример диалогового окна -->
 ```html
 <div class="dialog-overlay">
   <div class="dialog-container">
+    <!-- Заголовок -->
     <div class="dialog-header">
-      <h2 class="dialog-title">Заголовок</h2>
+      <h2 class="dialog-title">Заголовок диалога</h2>
     </div>
+    
+    <!-- Тело диалога -->
     <div class="dialog-body">
-      <p>Содержимое диалога</p>
+      <p>Содержимое диалогового окна. Здесь может быть любой контент.</p>
+      <p>Диалог автоматически центрируется и имеет затемненный фон.</p>
     </div>
+    
+    <!-- Подвал с кнопками -->
     <div class="dialog-footer">
       <button class="button button--secondary">Закрыть</button>
       <button class="button button--primary">ОК</button>
@@ -84,61 +144,233 @@ import 'tiles-ui/dist/css/tiles-ui.css'
 ## 🎨 Доступные классы
 
 ### Размеры тайлов
-- `.tile--1x1` - 1×1 (140px × 140px)
-- `.tile--2x1` - 2×1 (280px × 140px)
-- `.tile--1x2` - 1×2 (140px × 280px)
-- `.tile--2x2` - 2×2 (280px × 280px)
+<!-- 
+  Размеры тайлов определяются через grid span.
+  Базовый размер 1x1 = 140px × 140px
+-->
+- `.tile--1x1` - 1×1 (140px × 140px) - 1 ячейка
+- `.tile--2x1` - 2×1 (280px × 140px) - 2 ячейки по ширине
+- `.tile--3x1` - 3×1 (420px × 140px) - 3 ячейки по ширине
+- `.tile--1x2` - 1×2 (140px × 280px) - 2 ячейки по высоте
+- `.tile--2x2` - 2×2 (280px × 280px) - 4 ячейки
 
 ### Цвета тайлов
-- `.tile--color-blue`
-- `.tile--color-green`
-- `.tile--color-red`
-- `.tile--color-orange`
-- `.tile--color-purple`
-- `.tile--color-pink`
-- `.tile--color-teal`
-- `.tile--color-yellow`
-- `.tile--color-indigo`
-- `.tile--color-cyan`
-- `.tile--color-lime`
-- `.tile--color-amber`
+<!-- 
+  Каждый цвет использует градиент, где второй цвет на 20% темнее первого.
+  Все цвета имеют белый текст по умолчанию.
+-->
+- `.tile--color-blue` - синий градиент
+- `.tile--color-green` - зеленый градиент
+- `.tile--color-red` - красный градиент
+- `.tile--color-orange` - оранжевый градиент
+- `.tile--color-purple` - фиолетовый градиент
+- `.tile--color-pink` - розовый градиент
+- `.tile--color-teal` - бирюзовый градиент
+- `.tile--color-yellow` - желтый градиент
+- `.tile--color-indigo` - индиго градиент
+- `.tile--color-cyan` - циан градиент
+- `.tile--color-lime` - лайм градиент
+- `.tile--color-amber` - янтарный градиент
 
 ### Типы контента тайлов
-- `.tile__content--number` - только число
-- `.tile__content--title-value` - заголовок и значение
-- `.tile__content--icon-value` - иконка и значение
+<!-- 
+  Различные варианты отображения контента внутри тайла.
+  Каждый тип имеет свою структуру HTML.
+-->
+- `.tile__content--number` - только число (`.tile__number`)
+- `.tile__content--title-value` - заголовок (`.tile__title`) и значение (`.tile__value`)
+- `.tile__content--icon-value` - иконка (`.tile__icon`) и значение (`.tile__value`)
 - `.tile__content--title-icon-value` - заголовок, иконка и значение
-- `.tile__content--text` - только текст
+- `.tile__content--text` - только текст (`.tile__text`)
 - `.tile__content--title-text` - заголовок и текст
-- `.tile__content--list` - список
+- `.tile__content--list` - список элементов (`.tile__list`, `.tile__list-item`)
 
 ### Кнопки
-- `.button--primary` - основная кнопка
-- `.button--secondary` - вторичная кнопка
-- `.button--outline` - контурная кнопка
-- `.button--small` - маленькая
-- `.button--medium` - средняя (по умолчанию)
-- `.button--large` - большая
-- `.button--disabled` - отключенная
+<!-- 
+  Кнопки имеют три варианта стиля и три размера.
+  Все кнопки имеют uppercase текст и квадратные углы.
+-->
+- `.button--primary` - основная кнопка (синий фон)
+- `.button--secondary` - вторичная кнопка (полупрозрачный фон)
+- `.button--outline` - контурная кнопка (прозрачный фон с границей)
+- `.button--small` - маленькая (8px 16px, шрифт 12px)
+- `.button--medium` - средняя (12px 24px, шрифт 14px) - по умолчанию
+- `.button--large` - большая (16px 32px, шрифт 16px)
+- `.button--disabled` - отключенная кнопка
 
 ## 📐 Контейнер тайлов
 
+<!-- 
+  Контейнер использует CSS Grid с автоматическим заполнением пустот.
+  На мобильных устройствах (до 600px) сетка переключается на 3 колонки.
+-->
 ```html
 <div class="tiles-container" style="max-width: 1200px;">
   <!-- Тайлы -->
 </div>
 ```
 
+## 🔤 Шрифты и типографика
+
+<!-- 
+  Фреймворк использует системные шрифты для лучшей производительности.
+  Все размеры шрифтов оптимизированы для читаемости.
+-->
+
+### Семейство шрифтов
+<!-- Системные шрифты для кроссплатформенной совместимости -->
+```css
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+```
+
+### Размеры шрифтов в тайлах
+
+<!-- Заголовки тайлов -->
+- `.tile__title` - **12px**, font-weight: 300, uppercase, opacity: 0.9
+
+<!-- Значения в тайлах -->
+- `.tile__value` (1x1) - **32px**, font-weight: 700
+- `.tile__value` (2x1, 3x1, 2x2) - **42px**, font-weight: 700
+
+<!-- Числа в тайлах -->
+- `.tile__number` (1x1) - **48px**, font-weight: 700
+- `.tile__number` (2x1, 3x1, 2x2) - **64px**, font-weight: 700
+
+<!-- Текст в тайлах -->
+- `.tile__text` (1x1) - **16px**, line-height: 1.4
+- `.tile__text` (2x1, 3x1, 2x2) - **18px**, line-height: 1.4
+- `.tile__text` (в title-text) - **14px**, line-height: 1.4
+
+<!-- Элементы списка -->
+- `.tile__list-item` - **14px**, line-height: 1.2
+- `.tile__list-value` - **14px**, font-weight: 600
+
+<!-- Бейджи -->
+- `.tile__badge` - **12px**, font-weight: 900
+
+### Размеры шрифтов в кнопках
+
+<!-- Кнопки используют uppercase текст -->
+- `.button--small` - **12px**, font-weight: 300
+- `.button--medium` - **14px**, font-weight: 300 (по умолчанию)
+- `.button--large` - **16px**, font-weight: 300
+
+### Размеры шрифтов в диалогах
+
+<!-- Заголовок диалога -->
+- `.dialog-title` - **16px**, font-weight: 300, uppercase
+
+<!-- Тело диалога -->
+- `.dialog-body` - **16px**, line-height: 1.6, color: rgba(255, 255, 255, 0.9)
+
+## 📱 Адаптивность
+
+<!-- 
+  На мобильных устройствах (max-width: 600px):
+  - Сетка переключается на 3 колонки
+  - Тайлы 2x1, 3x1 и 2x2 занимают всю ширину (3 колонки)
+  - Gap уменьшается до 8px
+  - Padding уменьшается до 10px
+-->
+
 ## 🔧 Сборка CSS
 
-Для сборки CSS фреймворка:
-
+<!-- Для сборки CSS фреймворка выполните: -->
 ```bash
 pnpm run build:css
 ```
 
-Результат будет в `dist/css/tiles-ui.css` и `dist/css/tiles-ui.min.css`
+<!-- Результат будет в: -->
+- `dist/css/tiles-ui.css` - полная версия
+- `dist/css/tiles-ui.min.css` - минифицированная версия
 
-## 📝 Примеры
+## 📝 Полные примеры
 
-См. файл `src/App.vue` для примеров использования с Vue компонентами.
+### Пример 1: Dashboard с метриками
+
+```html
+<div class="tiles-container">
+  <!-- Метрика 1 -->
+  <div class="tile tile--1x1 tile--color-blue">
+    <div class="tile__badge">New</div>
+    <div class="tile__content tile__content--number">
+      <span class="tile__number">42</span>
+    </div>
+  </div>
+  
+  <!-- Метрика 2 -->
+  <div class="tile tile--2x1 tile--color-green">
+    <div class="tile__content tile__content--title-value">
+      <div class="tile__title">Total Revenue</div>
+      <div class="tile__value">$12,450</div>
+    </div>
+  </div>
+  
+  <!-- Метрика 3 -->
+  <div class="tile tile--3x1 tile--color-purple">
+    <div class="tile__content tile__content--title-value">
+      <div class="tile__title">Monthly Sales</div>
+      <div class="tile__value">$45,230</div>
+    </div>
+  </div>
+</div>
+```
+
+### Пример 2: Список активности
+
+```html
+<div class="tile tile--2x2 tile--color-cyan">
+  <div class="tile__content tile__content--list">
+    <div class="tile__title">Recent Activities</div>
+    <ul class="tile__list">
+      <li class="tile__list-item">
+        <span class="tile__list-text">New ticket created</span>
+        <span class="tile__list-value">2h ago</span>
+      </li>
+      <li class="tile__list-item">
+        <span class="tile__list-text">Task completed</span>
+        <span class="tile__list-value">5h ago</span>
+      </li>
+      <li class="tile__list-item">
+        <span class="tile__list-text">User registered</span>
+        <span class="tile__list-value">1d ago</span>
+      </li>
+    </ul>
+  </div>
+</div>
+```
+
+### Пример 3: Диалог с формой
+
+```html
+<div class="dialog-overlay">
+  <div class="dialog-container">
+    <div class="dialog-header">
+      <h2 class="dialog-title">Подтверждение</h2>
+    </div>
+    <div class="dialog-body">
+      <p>Вы уверены, что хотите выполнить это действие?</p>
+    </div>
+    <div class="dialog-footer">
+      <button class="button button--secondary button--medium">Отмена</button>
+      <button class="button button--primary button--medium">Подтвердить</button>
+    </div>
+  </div>
+</div>
+```
+
+## 🎯 Особенности
+
+<!-- 
+  - CSS Grid с grid-auto-flow: dense для автоматического заполнения пустот
+  - CSS переменные для цветов (легкая кастомизация)
+  - Адаптивный дизайн с медиа-запросами
+  - Градиенты для всех цветов (второй цвет на 20% темнее)
+  - Квадратные углы в стиле Metro UI
+  - Uppercase текст для заголовков и кнопок
+-->
+
+## 📚 Дополнительная информация
+
+<!-- См. файл `src/App.vue` для примеров использования с Vue компонентами. -->
+<!-- См. файл `README.md` для полной документации проекта. -->
