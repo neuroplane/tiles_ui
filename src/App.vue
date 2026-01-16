@@ -65,22 +65,23 @@ const tiles = ref([
     size: '2x1',
     color: 'blue',
     type: 'title-value',
-    title: 'Долги СМК',
-    value: '2 500'
+    title: 'Title',
+    value: 'Value'
   },
   {
     size: '1x1',
     color: 'blue',
     type: 'number',
     number: 8,
-    badge: 'На смене'
+    badge: 'Number'
   },
   {
     size: '2x1',
     color: 'green',
     type: 'title-value',
     value: 'СМК',
-    title: 'На льду'
+    title: 'На льду',
+    badge: 'Badge'
   },
   {
     size: '1x1',
@@ -117,8 +118,10 @@ const tiles = ref([
     size: '2x1',
     color: 'pink',
     type: 'title-icon-value',
+    title: 'Title',
     icon: icons.user,
-    value: '3,245'
+    badge: 'Title-Icon-Value',
+    value: 'Value'
   },
   
   // Тайлы 1x2
@@ -153,7 +156,7 @@ const tiles = ref([
     }
   },
   {
-    size: '2x1',
+    size: '3x1',
     color: 'cyan',
     type: 'title-value',
     title: 'System Status',
@@ -165,6 +168,7 @@ const tiles = ref([
     color: 'blue',
     type: 'list',
     title: 'Праздники',
+    badge: 'List',
     items: [
       { text: 'Рождество Христово', value: '7.01.2026'},
       { text: 'День работника прокуратуры Российской Федерации', value: '12.01.2026'},
@@ -243,10 +247,10 @@ const tiles = ref([
     number: 99
   },
   {
-    size: '1x1',
+    size: '3x1',
     color: 'red',
     type: 'text',
-    text: 'Hot'
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     size: '1x1',

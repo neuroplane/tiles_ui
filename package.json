@@ -3,9 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "./dist/css/tiles-ui.css",
+  "style": "./dist/css/tiles-ui.css",
+  "files": [
+    "dist/css",
+    "src/styles"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:css": "node build-css.js",
     "preview": "vite preview"
   },
   "dependencies": {
