@@ -69,10 +69,10 @@ const tiles = ref([
     value: 'Value'
   },
   {
-    size: '1x1',
+    size: '2x1',
     color: 'blue',
     type: 'number',
-    number: 8,
+    number: 3000,
     badge: 'Number'
   },
   {
@@ -183,7 +183,7 @@ const tiles = ref([
     ]
   },
   {
-    size: '2x1',
+    size: '2x2',
     color: 'blue',
     type: 'list',
     title: 'Онлайн-кассы',
