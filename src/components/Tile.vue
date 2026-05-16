@@ -141,6 +141,16 @@
       </div>
     </div>
     
+    <!-- Тип: quadrant (4 цветных квадранта) -->
+    <div v-else-if="type === 'quadrant'" class="tile__content tile__content--quadrant">
+      <div
+        v-for="(color, index) in indicators"
+        :key="index"
+        class="tile__quadrant"
+        :class="`tile__quadrant--${color}`"
+      ></div>
+    </div>
+    
     <!-- Тип: по умолчанию (пустой) -->
     <div v-else class="tile__content tile__content--default"></div>
   </div>
@@ -165,7 +175,7 @@ const props = defineProps({
   type: {
     type: String,
     default: 'default',
-    validator: (value) => ['default', 'number', 'title-value', 'icon-value', 'title-icon-value', 'text', 'title-text', 'list', 'chart', 'progress', 'image', 'timer'].includes(value)
+    validator: (value) => ['default', 'number', 'title-value', 'icon-value', 'title-icon-value', 'text', 'title-text', 'list', 'chart', 'progress', 'image', 'timer', 'quadrant'].includes(value)
   },
   badge: {
     type: [String, Number],
@@ -231,6 +241,11 @@ const props = defineProps({
   timerTarget: {
     type: [String, Number],
     default: null
+  },
+  // Для типа quadrant - массив из 4 цветов ['danger', 'warning', 'success', 'empty']
+  indicators: {
+    type: Array,
+    default: () => ['danger', 'warning', 'success', 'empty']
   }
 })
 
@@ -754,6 +769,45 @@ onUnmounted(() => {
 .tile--2x1 .tile__timer-label,
 .tile--2x2 .tile__timer-label {
   font-size: 12px;
+}
+
+/* Тип: quadrant (4 цветных квадранта) */
+.tile.tile--type-quadrant {
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.tile--type-quadrant .tile__content--quadrant {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  gap: 8px;
+}
+
+.tile__quadrant {
+  width: 100%;
+  height: 100%;
+}
+
+.tile__quadrant--danger {
+  background: linear-gradient(135deg, #c9283a 0%, #a1202e 100%);
+}
+
+.tile__quadrant--warning {
+  background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+}
+
+.tile__quadrant--success {
+  background: linear-gradient(135deg, #00a629 0%, #008521 100%);
+}
+
+.tile__quadrant--empty {
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
 }
 
 /* Цвета тайлов */

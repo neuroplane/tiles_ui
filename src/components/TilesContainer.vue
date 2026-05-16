@@ -19,6 +19,7 @@
       :progress-percent="tile.progressPercent"
       :image-url="tile.imageUrl"
       :timer-target="tile.timerTarget"
+      :indicators="tile.indicators"
       @click="tile.clickable && handleTileClick(tile, index)"
     />
   </div>

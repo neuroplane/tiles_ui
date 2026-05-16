@@ -67,6 +67,9 @@ const generateTileCode = (tile) => {
     const isoString = date.toISOString().slice(0, 19)
     code += `,\n  timerTarget: new Date('${isoString}').getTime()  // ${date.toLocaleString('ru-RU')}`
   }
+  if (tile.indicators) {
+    code += `,\n  indicators: [${tile.indicators.map(c => `'${c}'`).join(', ')}]`
+  }
   
   if (tile.items) {
     code += `,\n  items: [`
@@ -163,6 +166,8 @@ const rawTiles = [
   { size: '1x1', color: 'red', type: 'text', text: 'ВАЖНО' },
   { size: '1x1', color: 'lime', type: 'progress', title: 'CPU', progressPercent: 15 },
   { size: '1x1', color: 'cyan', type: 'timer', title: 'До старта', timerTarget: Date.now() + 1000 * 60 * 30 },
+  { size: '1x1', color: 'blue', type: 'quadrant', 
+  indicators: ['success', 'success', 'success', 'danger'] },
 
   // ============================================
   // РЯД 2: Тайлы 2×1 — широкие варианты
@@ -214,7 +219,7 @@ const tiles = computed(() => {
     <header class="app-header">
       <h1>Metro UI Тайлы</h1>
       <span class="app-version">v{{ versionData.date }}.{{ versionData.deployCount }}</span>
-      <p>Современный тайловый интерфейс с типами: number, icon-value, text, progress, timer, title-value, title-icon-value, chart, list, title-text</p>
+      <p>Современный тайловый интерфейс с типами: number, text, progress, timer, quadrant, title-value, chart, list, title-text</p>
       <div class="demo-controls" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; justify-content: center;">
         <Button variant="primary" @click="showDialog = true">ДИАЛОГ</Button>
         <Button variant="secondary" @click="showToast('success', 'Операция выполнена успешно!')">SUCCESS</Button>
