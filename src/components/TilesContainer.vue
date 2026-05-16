@@ -14,6 +14,11 @@
       :icon="tile.icon"
       :items="tile.items"
       :clickable="tile.clickable"
+      :chart-data="tile.chartData"
+      :chart-value="tile.chartValue"
+      :progress-percent="tile.progressPercent"
+      :image-url="tile.imageUrl"
+      :timer-target="tile.timerTarget"
       @click="tile.clickable && handleTileClick(tile, index)"
     />
   </div>
@@ -65,8 +70,8 @@ const handleTileClick = (tile, index) => {
 /* Для маленьких экранов */
 @media (max-width: 600px) {
   .tiles-container {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: calc((100vw - 40px - 24px) / 3);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
     padding: 10px;
     gap: 8px;
   }

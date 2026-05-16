@@ -1,12 +1,103 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import TilesContainer from './components/TilesContainer.vue'
 import Dialog from './components/Dialog.vue'
 import Button from './components/Button.vue'
+import Toast from './components/Toast.vue'
+import Input from './components/Input.vue'
+import Skeleton from './components/Skeleton.vue'
+import versionData from '../version.json'
 
 const showDialog = ref(false)
+const showCodeDialog = ref(false)
+const toastRef = ref(null)
+const dialogInput = ref('')
+const selectedTileCode = ref('')
+const isLoading = ref(true)
 
-// Примеры иконок (SVG paths)
+// Имитация загрузки
+onMounted(() => {
+  setTimeout(() => {
+    isLoading.value = false
+  }, 2000)
+})
+
+const showToast = (type, message) => {
+  if (toastRef.value) {
+    toastRef.value[type](message, { title: type.toUpperCase() })
+  }
+}
+
+// Генерация кода тайла для показа в диалоге
+const generateTileCode = (tile) => {
+  const iconMap = {
+    [icons.user.path]: 'icons.user',
+    [icons.bell.path]: 'icons.bell',
+    [icons.star.path]: 'icons.star',
+    [icons.heart.path]: 'icons.heart',
+    [icons.settings.path]: 'icons.settings',
+    [icons.ticket.path]: 'icons.ticket',
+    [icons.task.path]: 'icons.task',
+    [icons.chart.path]: 'icons.chart',
+    [icons.accountGroup.path]: 'icons.accountGroup',
+    [icons.accountClock.path]: 'icons.accountClock',
+  }
+
+  let code = `{\n`
+  code += `  size: '${tile.size}',\n`
+  code += `  color: '${tile.color}',\n`
+  code += `  type: '${tile.type}'`
+
+  if (tile.number !== undefined) code += `,\n  number: ${tile.number}`
+  if (tile.title) code += `,\n  title: '${tile.title}'`
+  if (tile.value !== undefined) code += `,\n  value: '${tile.value}'`
+  if (tile.text) code += `,\n  text: '${tile.text}'`
+  if (tile.badge) code += `,\n  badge: '${tile.badge}'`
+  
+  if (tile.icon) {
+    const iconRef = iconMap[tile.icon.path] || 'icons.user'
+    code += `,\n  icon: ${iconRef}`
+  }
+  
+  if (tile.progressPercent !== undefined) code += `,\n  progressPercent: ${tile.progressPercent}`
+  if (tile.chartData) code += `,\n  chartData: [${tile.chartData.join(', ')}]`
+  if (tile.chartValue) code += `,\n  chartValue: '${tile.chartValue}'`
+  if (tile.timerTarget) {
+    const date = new Date(tile.timerTarget)
+    const isoString = date.toISOString().slice(0, 19)
+    code += `,\n  timerTarget: new Date('${isoString}').getTime()  // ${date.toLocaleString('ru-RU')}`
+  }
+  
+  if (tile.items) {
+    code += `,\n  items: [`
+    tile.items.forEach((item, i) => {
+      const itemIcon = item.icon ? iconMap[item.icon.path] || 'icons.user' : null
+      code += `\n    { text: '${item.text}', value: '${item.value}'${itemIcon ? `, icon: ${itemIcon}` : ''} },`
+    })
+    code += `\n  ]`
+  }
+
+  code += `\n}`
+  return code
+}
+
+// Показать диалог с кодом тайла
+const showTileCode = (tile, index) => {
+  selectedTileCode.value = generateTileCode(tile)
+  showCodeDialog.value = true
+}
+
+// Копировать код в буфер обмена
+const copyCode = async () => {
+  try {
+    await navigator.clipboard.writeText(selectedTileCode.value)
+    showToast('success', 'Код скопирован в буфер обмена!')
+  } catch (err) {
+    showToast('error', 'Не удалось скопировать код')
+  }
+}
+
+// Примеры иконок (SVG пути)
 const icons = {
   chart: {
     viewBox: '0 0 24 24',
@@ -51,266 +142,143 @@ const icons = {
 }
 
 // Примеры тайлов
-// Типы: 
-// icon-value
-// text
-// number
-// list
-// title-icon-value
-// title-text
-// title-value
-const tiles = ref([
-  // Тайлы 1x1
-  {
-    size: '2x1',
-    color: 'blue',
-    type: 'title-value',
-    title: 'Title',
-    value: 'Value'
-  },
-  {
-    size: '2x1',
-    color: 'blue',
-    type: 'number',
-    number: 3000,
-    badge: 'Number'
-  },
-  {
-    size: '2x1',
-    color: 'green',
-    type: 'title-value',
-    value: 'СМК',
-    title: 'На льду',
-    badge: 'Badge'
-  },
-  {
-    size: '1x1',
-    color: 'red',
-    type: 'number',
-    badge: 'Задачи',
-    number: 3
-  },
-  {
-    size: '1x1',
-    color: 'orange',
-    type: 'number',
-    number: 19,
-    badge: 'Заказы'
-  },
-  {
-    size: '1x1',
-    color: 'orange',
-    type: 'number',
-    number: '82%',
-    badge: 'Явка'
-  },
-  
-  // Тайлы 2x1
-  {
-    size: '2x1',
-    color: 'purple',
-    type: 'title-value',
-    title: 'Долги по СМК',
-    value: '12 450 ₽',
-    badge: '↑ 12%'
-  },
-  {
-    size: '2x1',
-    color: 'pink',
-    type: 'title-icon-value',
-    title: 'Title',
-    icon: icons.user,
-    badge: 'Title-Icon-Value',
-    value: 'Value'
-  },
-  
-  // Тайлы 1x2
-  {
-    size: '1x1',
-    color: 'teal',
-    type: 'title-text',
+// Типы:
+// icon-value (иконка-значение)
+// text (текст)
+// number (число)
+// list (список)
+// title-icon-value (заголовок-иконка-значение)
+// title-text (заголовок-текст)
+// title-value (заголовок-значение)
+// chart (график)
+// progress (прогресс)
+// image (изображение)
+// timer (таймер)
+// Базовое определение тайлов (без onClick)
+const rawTiles = [
+  // ============================================
+  // РЯД 1: Тайлы 1×1 — базовые типы
+  // ============================================
+  { size: '1x1', color: 'blue', type: 'number', number: 42, badge: 'NEW' },
+  { size: '1x1', color: 'red', type: 'text', text: 'ВАЖНО' },
+  { size: '1x1', color: 'lime', type: 'progress', title: 'CPU', progressPercent: 15 },
+  { size: '1x1', color: 'cyan', type: 'timer', title: 'До старта', timerTarget: Date.now() + 1000 * 60 * 30 },
 
-    text: 'You have 5 new messages and 3 pending tasks',
-    badge: 8
-  },
-  {
-    size: '1x2',
-    color: 'yellow',
-    type: 'icon-value',
-    icon: icons.star,
-    value: '4.8'
-  },
-  
-  // Тайлы 2x2
-  {
-    size: '2x1',
-    color: 'indigo',
-    type: 'title-text',
-    title: 'Dashboard Overview',
-    text: 'Welcome to your dashboard. Here you can see all your important metrics and statistics at a glance.',
-    badge: 'Pro',
+  // ============================================
+  // РЯД 2: Тайлы 2×1 — широкие варианты
+  // ============================================
+  { size: '2x1', color: 'teal', type: 'title-value', title: 'Выручка', value: '124 500 ₽', badge: '+12%' },
+  { size: '1x1', color: 'orange', type: 'chart', title: 'Продажи', chartData: [30, 45, 35, 50, 55], chartValue: '+23%' },
+  { size: '2x2', color: 'pink', type: 'list', title: 'События', items: [
+    { text: 'Заказ #1234', value: '2 мин', icon: icons.ticket },
+    { text: 'Новый клиент', value: '5 мин', icon: icons.user },
+    { text: 'Оплата', value: '12 мин', icon: icons.star },
+  ]},
+
+  // ============================================
+  // РЯД 3: Тайлы 1×2 — высокие варианты
+  // ============================================
+  { size: '1x1', color: 'yellow', type: 'title-text', title: 'Уведомления', text: 'У вас 5 новых сообщений и 2 задачи' },
+
+  // ============================================
+  // РЯД 4: Тайлы 2×2 — большие плитки
+  // ============================================
+  { size: '2x2', color: 'blue', type: 'list', title: 'Активность', badge: 'Сегодня', items: [
+    { text: 'Регистрация', value: '09:30', icon: icons.user },
+    { text: 'Покупка', value: '10:15', icon: icons.ticket },
+    { text: 'Отзыв', value: '11:00', icon: icons.star },
+    { text: 'Обращение', value: '11:45', icon: icons.bell },
+  ]},
+  { size: '2x1', color: 'amber', type: 'title-text', title: 'Системное сообщение', text: 'Плановое обслуживание серверов запланировано на выходные. Ожидайте кратковременных перерывов в работе.' },
+
+  // ============================================
+  // РЯД 5: Тайлы 3×1 — сверхширокие
+  // ============================================
+  { size: '2x1', color: 'green', type: 'title-value', title: 'Годовой доход', value: '2 450 000 ₽', badge: '2026' },
+  { size: '2x1', color: 'red', type: 'text', text: 'Технические работы: система будет недоступна с 02:00 до 04:00' },
+]
+
+// Добавляем clickable и onClick каждому тайлу
+const tiles = computed(() => {
+  return rawTiles.map((tile, index) => ({
+    ...tile,
     clickable: true,
-    onClick: (tile, index) => {
-      console.log('Клик по тайлу:', tile, index)
-      showDialog.value = true
-    }
-  },
-  {
-    size: '3x1',
-    color: 'cyan',
-    type: 'title-value',
-    title: 'System Status',
-    value: 'All Systems Operational',
-    badge: 'Active'
-  },
-  {
-    size: '2x1',
-    color: 'blue',
-    type: 'list',
-    title: 'Праздники',
-    badge: 'List',
-    items: [
-      { text: 'Рождество Христово', value: '7.01.2026'},
-      { text: 'День работника прокуратуры Российской Федерации', value: '12.01.2026'},
-      { text: 'День российской печати', value: '13.01.2026'},
-      //{ text: 'System update', value: '2d ago', icon: icons.settings },
-      //{ text: 'Report generated', value: '3d ago', icon: icons.chart },
-      //{ text: 'New ticket created', value: '2h ago', icon: icons.ticket },
-      //{ text: 'Task completed', value: '5h ago', icon: icons.task },
-      //{ text: 'User registered', value: '1d ago', icon: icons.user },
-      //{ text: 'System update', value: '2d ago', icon: icons.settings },
-      //{ text: 'Report generated', value: '3d ago', icon: icons.chart }
-    ]
-  },
-  {
-    size: '2x2',
-    color: 'blue',
-    type: 'list',
-    title: 'Онлайн-кассы',
-    items: [
-      { text: '18:30', value: 'В3 · Д1 · К2'},
-      { text: '19:00', value: '1 · 1 · 2'},
-      { text: '19:30', value: '2 · 1 · 2'},
-      { text: '20:00', value: '3 · 1 · 2'},
-    ]
-  },
-  {
-    size: '2x1',
-    color: 'blue',
-    type: 'list',
-    title: 'Реестр оплат',
-    items: [
-      { text: 'Аренда большого льда', value: '9 000'},
-      { text: 'Оплата услуги. СМК', value: '500'},
-      { text: 'Оплата абонемента. УТГФ', value: '12 000'},
-      { text: 'Оплата абонемента. УТГХ', value: '7 500'},
-    ]
-  },
-  {
-    size: '1x1',
-    color: 'blue',
-    type: 'list',
-    title: 'Дни рождения',
-    items: [
-      { text: 'БояркинаАЕ'},
-      { text: 'БояркинаАЕ'},
-      { text: 'БояркинаАЕ'},
-    ]
-  },
-  
-  // Дополнительные тайлы
-  {
-    size: '1x1',
-    color: 'lime',
-    type: 'icon-value',
-    icon: icons.bell,
-    value: '24'
-  },
-  {
-    size: '1x1',
-    color: 'amber',
-    type: 'icon-value',
-    icon: icons.heart,
-    value: '156'
-  },
-  {
-    size: '2x1',
-    color: 'blue',
-    type: 'title-value',
-    title: 'Monthly Sales',
-    value: '$45,230'
-  },
-  {
-    size: '1x1',
-    color: 'green',
-    type: 'number',
-    number: 99
-  },
-  {
-    size: '3x1',
-    color: 'red',
-    type: 'text',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },
-  {
-    size: '1x1',
-    color: 'purple',
-    type: 'icon-value',
-    icon: icons.ticket,
-    value: '24'
-  },
-  {
-    size: '1x1',
-    color: 'teal',
-    type: 'icon-value',
-    icon: icons.task,
-    value: '12'
-  },
-  {
-    size: '1x1',
-    color: 'indigo',
-    type: 'icon-value',
-    icon: icons.accountGroup,
-    value: '48'
-  },
-  {
-    size: '1x1',
-    color: 'cyan',
-    type: 'icon-value',
-    icon: icons.accountClock,
-    value: '36'
-  },
-  {
-    size: '2x1',
-    color: 'orange',
-    type: 'title-icon-value',
-    title: 'Tickets',
-    icon: icons.ticket,
-    value: '48'
-  },
-  {
-    size: '2x1',
-    color: 'pink',
-    type: 'title-icon-value',
-    title: 'Tasks',
-    icon: icons.task,
-    value: '36'
-  }
-])
+    onClick: () => showTileCode(tile, index)
+  }))
+})
 </script>
 
 <template>
   <div class="app">
-    <TilesContainer :tiles="tiles" maxWidth="1200px" />
+    <!-- Шапка с кнопками демонстрации -->
+    <header class="app-header">
+      <h1>Metro UI Тайлы</h1>
+      <span class="app-version">v{{ versionData.date }}.{{ versionData.deployCount }}</span>
+      <p>Современный тайловый интерфейс с типами: number, icon-value, text, progress, timer, title-value, title-icon-value, chart, list, title-text</p>
+      <div class="demo-controls" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; justify-content: center;">
+        <Button variant="primary" @click="showDialog = true">ДИАЛОГ</Button>
+        <Button variant="secondary" @click="showToast('success', 'Операция выполнена успешно!')">SUCCESS</Button>
+        <Button variant="secondary" @click="showToast('error', 'Что-то пошло не так!')">ERROR</Button>
+        <Button variant="outline" @click="showToast('info', 'Получено новое уведомление')">INFO</Button>
+      </div>
+    </header>
+
+    <!-- Skeleton Loading (показывается 2 сек при загрузке) -->
+    <div v-if="isLoading" class="skeleton-wrapper">
+      <Skeleton variant="tiles-grid" :count="8" />
+    </div>
     
-    <!-- Пример диалогового окна -->
-    <Dialog v-model="showDialog" title="Пример диалога">
-      <p>Это тело диалогового окна. Здесь может быть любой контент.</p>
-      <p>Диалог автоматически центрируется и имеет затемненный фон.</p>
-      
+    <!-- Контейнер тайлов -->
+    <TilesContainer v-else :tiles="tiles" maxWidth="1200px" />
+
+    <!-- Контейнер уведомлений -->
+    <Toast ref="toastRef" />
+
+    <!-- Диалог с полями ввода -->
+    <Dialog v-model="showDialog" title="Информация о пользователе">
+      <p style="margin-bottom: 16px;">Пожалуйста, введите вашу информацию ниже:</p>
+
+      <Input
+        v-model="dialogInput"
+        label="ФИО"
+        placeholder="Введите ваше имя"
+        hint="Это будет отображаться в вашем профиле"
+      />
+
+      <Input
+        label="Email"
+        type="email"
+        placeholder="your@email.com"
+        style="margin-top: 16px;"
+      />
+
+      <Input
+        label="Возраст"
+        type="number"
+        placeholder="25"
+        min="18"
+        max="120"
+        style="margin-top: 16px;"
+      />
+
       <template #footer>
-        <Button size="small" variant="secondary" @click="showDialog = false">Закрыть</Button>
-        <Button size="small" variant="primary" @click="showDialog = false">ОК</Button>
+        <Button size="small" variant="secondary" @click="showDialog = false">Отмена</Button>
+        <Button
+          size="small"
+          variant="primary"
+          @click="showDialog = false; showToast('success', 'Информация сохранена!')"
+        >
+          Сохранить
+        </Button>
+      </template>
+    </Dialog>
+
+    <!-- Диалог с кодом тайла -->
+    <Dialog v-model="showCodeDialog" title="Код тайла" maxWidth="600px">
+      <p style="margin-bottom: 12px; font-size: 14px; opacity: 0.8;">Нажмите на код, чтобы скопировать:</p>
+      <pre class="tile-code" @click="copyCode">{{ selectedTileCode }}</pre>
+      <template #footer>
+        <Button size="small" variant="secondary" @click="showCodeDialog = false">Закрыть</Button>
       </template>
     </Dialog>
   </div>
@@ -337,9 +305,67 @@ const tiles = ref([
 }
 
 .app-header p {
-  margin: 0;
+  margin: 0 0 20px 0;
   font-size: 1.2em;
   opacity: 0.9;
 }
 
+.demo-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.skeleton-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+@media (max-width: 600px) {
+  .app-header h1 {
+    font-size: 1.8em;
+  }
+  
+  .app-header p {
+    font-size: 1em;
+  }
+  
+  .demo-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.tile-code {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 16px;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #aaddff;
+  overflow-x: auto;
+  white-space: pre;
+  cursor: pointer;
+  transition: background 0.2s;
+  user-select: all;
+}
+
+.tile-code:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.app-version {
+  font-size: 11px;
+  color: #88aabb;
+  opacity: 0.7;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
 </style>

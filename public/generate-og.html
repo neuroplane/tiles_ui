@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Generate OG Image</title>
+  <style>
+    body { margin: 0; background: #0c1823; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+    canvas { border: 2px solid #333; }
+    button { margin-top: 20px; padding: 12px 24px; font-size: 16px; cursor: pointer; background: #4a5fc7; color: white; border: none; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="1200" height="630"></canvas>
+  <button onclick="download()">Скачать og-image.png</button>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Фон (градиент)
+    const bgGradient = ctx.createLinearGradient(0, 0, 1200, 630);
+    bgGradient.addColorStop(0, '#162c42');
+    bgGradient.addColorStop(1, '#0c1823');
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, 1200, 630);
+    
+    // Тайлы слева
+    function drawTile(x, y, w, h, color1, color2) {
+      const gradient = ctx.createLinearGradient(x, y, x + w, y + h);
+      gradient.addColorStop(0, color1);
+      gradient.addColorStop(1, color2);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(x, y, w, h);
+    }
+    
+    // Рисуем тайлы
+    drawTile(80, 100, 140, 140, '#4a5fc7', '#3b4c9f');
+    drawTile(240, 100, 140, 140, '#00a629', '#008521');
+    drawTile(400, 100, 140, 140, '#c9283a', '#a1202e');
+    drawTile(80, 260, 140, 140, '#008080', '#006666');
+    drawTile(240, 260, 300, 140, '#4a5fc7', '#3b4c9f');
+    drawTile(80, 420, 460, 140, '#00a629', '#008521');
+    
+    // Заголовок TILES
+    ctx.font = '700 140px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('TILES', 700, 250);
+    
+    // Подзаголовок UI
+    ctx.font = '300 80px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#aaddff';
+    ctx.fillText('UI', 700, 340);
+    
+    // Описание
+    ctx.font = '28px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#88aabb';
+    ctx.fillText('Metro UI Style Tile Components', 700, 430);
+    
+    // URL
+    ctx.font = '24px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#667799';
+    ctx.fillText('tiles.tagban.ru', 700, 520);
+    
+    // Функция скачивания
+    function download() {
+      const link = document.createElement('a');
+      link.download = 'og-image.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>

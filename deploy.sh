@@ -11,10 +11,10 @@ cd "$PROJECT_DIR"
 echo "Using pnpm..."
 PNPM_CMD="pnpm"
 
-# Update version before build (if script exists)
-if [ -f "scripts/update-version.js" ]; then
+# Update version before build
+if [ -f "update-version.js" ]; then
   echo "Updating version..."
-  node scripts/update-version.js
+  node update-version.js
 fi
 
 # Ensure dependencies are installed
