@@ -309,7 +309,7 @@ onUnmounted(() => {
   position: relative;
   background: var(--tile-bg);
   color: var(--tile-text);
-  padding: 12px;
+  padding: 8px;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55); */
   overflow: hidden;
   display: flex;
@@ -341,6 +341,7 @@ onUnmounted(() => {
 .tile--2x1 {
   grid-column: span 2;
   grid-row: span 1;
+  padding-top: 14px;
 }
 
 .tile--3x1 {
@@ -351,11 +352,13 @@ onUnmounted(() => {
 .tile--1x2 {
   grid-column: span 1;
   grid-row: span 2;
+  padding-top: 14px;
 }
 
 .tile--2x2 {
   grid-column: span 2;
   grid-row: span 2;
+  padding-top: 14px;
 }
 
 /* На мобильных устройствах ограничиваем размер больших тайлов */
@@ -386,9 +389,9 @@ onUnmounted(() => {
   right: 0%;
   background: rgba(255, 255, 255, 0.6);
   color: #333;
-  padding: 4px 8px;
-  font-size: 12px;
-  font-weight: 900;
+  padding: 2px 4px;
+  font-size: 8px;
+  font-weight: 600;
   z-index: 10;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -1004,6 +1007,7 @@ onUnmounted(() => {
   .tile--3x1 {
     aspect-ratio: 2 / 1;
     grid-column: span 2;
+    padding-top: 22px;
   }
   
   /* Высокие тайлы 1x2 */
@@ -1017,6 +1021,7 @@ onUnmounted(() => {
     aspect-ratio: 1 / 1;
     grid-column: span 2;
     grid-row: span 2;
+    padding-top: 22px;
   }
   
   /* Отключаем анимации на мобильных */

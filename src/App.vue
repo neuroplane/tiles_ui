@@ -153,54 +153,42 @@ const icons = {
 // title-icon-value (заголовок-иконка-значение)
 // title-text (заголовок-текст)
 // title-value (заголовок-значение)
-// chart (график)
-// progress (прогресс)
-// image (изображение)
-// timer (таймер)
 // Базовое определение тайлов (без onClick)
 const rawTiles = [
   // ============================================
-  // РЯД 1: Тайлы 1×1 — базовые типы
+  // РЯД 1: Метрики 1×1
   // ============================================
-  { size: '1x1', color: 'blue', type: 'number', number: 42, badge: 'NEW' },
-  { size: '1x1', color: 'red', type: 'text', text: 'ВАЖНО' },
-  { size: '1x1', color: 'lime', type: 'progress', title: 'CPU', progressPercent: 15 },
-  { size: '1x1', color: 'cyan', type: 'timer', title: 'До старта', timerTarget: Date.now() + 1000 * 60 * 30 },
-  { size: '1x1', color: 'blue', type: 'quadrant', 
-  indicators: ['success', 'success', 'success', 'danger'] },
+  { size: '1x1', color: 'red', type: 'number', number: 500, badge: 'ДОЛГИ' },
+  { size: '1x1', color: 'blue', type: 'number', number: 2, badge: 'НА СМЕНЕ' },
+  { size: '1x1', color: 'blue', type: 'number', number: '—', badge: 'НА ЛЬДУ' },
+  { size: '1x1', color: 'orange', type: 'number', number: 3, badge: 'АКТИВНЫХ ЗАДАЧ' },
+  { size: '1x1', color: 'green', type: 'number', number: 0, badge: 'ОНЛАЙН-ЗАКАЗЫ' },
+  { size: '1x1', color: 'purple', type: 'number', number: 121, badge: 'ДОГОВОРОВ' },
+  { size: '1x1', color: 'teal', type: 'number', number: '80%', badge: 'ЯВКА' },
 
   // ============================================
-  // РЯД 2: Тайлы 2×1 — широкие варианты
+  // РЯД 2: Широкие плитки
   // ============================================
-  { size: '2x1', color: 'teal', type: 'title-value', title: 'Выручка', value: '124 500 ₽', badge: '+12%' },
-  { size: '1x1', color: 'orange', type: 'chart', title: 'Продажи', chartData: [30, 45, 35, 50, 55], chartValue: '+23%' },
-  { size: '2x2', color: 'pink', type: 'list', title: 'События', items: [
-    { text: 'Заказ #1234', value: '2 мин', icon: icons.ticket },
-    { text: 'Новый клиент', value: '5 мин', icon: icons.user },
-    { text: 'Оплата', value: '12 мин', icon: icons.star },
+  { size: '2x1', color: 'purple', type: 'title-value', badge: 'ОПЛАТА ДОЛГОВ', value: 'Нет платежей' },
+  { size: '2x2', color: 'green', type: 'list', badge: 'ОНЛАЙН БИЛЕТЫ', items: [
+    { text: '17.05.2026 · 13:30', value: '1' },
+    { text: '17.05.2026 · 12:15', value: '1' },
+  ]},
+  { size: '2x1', color: 'purple', type: 'list', badge: 'ПРАЗДНИКИ', items: [
+    { text: 'День фармацевтического работника', value: '19.05' },
+    { text: 'День полярника', value: '21.05' },
   ]},
 
   // ============================================
-  // РЯД 3: Тайлы 1×2 — высокие варианты
+  // РЯД 3: Нижний ряд
   // ============================================
-  { size: '1x1', color: 'yellow', type: 'title-text', title: 'Уведомления', text: 'У вас 5 новых сообщений и 2 задачи' },
-
-  // ============================================
-  // РЯД 4: Тайлы 2×2 — большие плитки
-  // ============================================
-  { size: '2x2', color: 'blue', type: 'list', title: 'Активность', badge: 'Сегодня', items: [
-    { text: 'Регистрация', value: '09:30', icon: icons.user },
-    { text: 'Покупка', value: '10:15', icon: icons.ticket },
-    { text: 'Отзыв', value: '11:00', icon: icons.star },
-    { text: 'Обращение', value: '11:45', icon: icons.bell },
+  { size: '2x1', color: 'teal', type: 'list', badge: 'ДНИ РОЖДЕНИЯ', items: [
+    { text: 'Ельбиева София', value: '13' },
+    { text: 'Афанасенко Тихон', value: '12' },
   ]},
-  { size: '2x1', color: 'amber', type: 'title-text', title: 'Системное сообщение', text: 'Плановое обслуживание серверов запланировано на выходные. Ожидайте кратковременных перерывов в работе.' },
-
-  // ============================================
-  // РЯД 5: Тайлы 3×1 — сверхширокие
-  // ============================================
-  { size: '2x1', color: 'green', type: 'title-value', title: 'Годовой доход', value: '2 450 000 ₽', badge: '2026' },
-  { size: '2x1', color: 'red', type: 'text', text: 'Технические работы: система будет недоступна с 02:00 до 04:00' },
+  { size: '2x1', color: 'green', type: 'list', badge: 'ОПЛАТЫ', items: [
+    { text: 'Школа: Хоккей Младшая [Тубеев]', value: '9 500' },
+  ]},
 ]
 
 // Добавляем clickable и onClick каждому тайлу
