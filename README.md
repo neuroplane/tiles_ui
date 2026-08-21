@@ -58,10 +58,151 @@ createApp(App).use(TilesUI).mount('#app')
 
 Глобальные имена плагина: `Tile`, `TilesContainer`, `TilesButton`, `TilesDialog`, `TilesInput`, `TilesToast`, `TilesSkeleton`.
 
+## Как повторить демо
+
+На [tiles.tagban.ru](https://tiles.tagban.ru) и на скриншоте выше — не «магия CSS», а связка:
+
+| Что видите | Откуда |
+| --- | --- |
+| Цвета, сетка, шрифты, прогресс-бар, квадрант | `tiles-ui/css` |
+| Цифры, списки, бейджи | ваши данные в HTML или в пропсах `Tile` |
+| Тикающий таймер | Vue: `type: 'timer'` + `timerTarget` |
+| Линия графика | Vue: `type: 'chart'` + `chartData`, либо готовый SVG `path` в HTML |
+| Диалог, тосты, скелетон | компоненты `Dialog`, `Toast`, `Skeleton` |
+| Тёмный фон и шапка | стили страницы, их в пакете нет |
+
+Без Vue можно собрать **внешность** (см. [CSS-FRAMEWORK.md](./CSS-FRAMEWORK.md)). Поведение таймера, графика, диалога и тостов как на демо — через Vue или свой JS.
+
+### Фон как на демо
+
+```css
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #162c42 0%, #0c1823 100%);
+  font-family: system-ui, sans-serif;
+  color: #fff;
+}
+```
+
+### Vue: сетка, диалог, тосты, скелетон
+
+Нужны Vue 3 и бандлер с поддержкой `.vue`. CSS из пакета подключать не обязательно: стили уже внутри компонентов.
+
+```vue
+<script setup>
+import { ref, onMounted } from 'vue'
+import {
+  TilesContainer,
+  Button,
+  Dialog,
+  Input,
+  Toast,
+  Skeleton
+} from 'tiles-ui'
+
+const isLoading = ref(true)
+const showDialog = ref(false)
+const toastRef = ref(null)
+const name = ref('')
+
+onMounted(() => {
+  setTimeout(() => { isLoading.value = false }, 2000)
+})
+
+const notify = (type, message) => {
+  toastRef.value?.[type](message, { title: type.toUpperCase() })
+}
+
+const tiles = [
+  { size: '1x1', color: 'blue', type: 'number', number: 42, badge: 'NEW' },
+  { size: '1x1', color: 'red', type: 'text', text: 'Важно' },
+  { size: '1x1', color: 'green', type: 'progress', title: 'CPU', progressPercent: 15 },
+  {
+    size: '1x1',
+    color: 'blue',
+    type: 'timer',
+    title: 'До старта',
+    timerTarget: Date.now() + 30 * 60 * 1000
+  },
+  {
+    size: '1x1',
+    type: 'quadrant',
+    indicators: ['success', 'success', 'success', 'danger']
+  },
+  {
+    size: '2x1',
+    color: 'teal',
+    type: 'title-value',
+    title: 'Выручка',
+    value: '124 500 ₽',
+    badge: '+12%'
+  },
+  {
+    size: '1x1',
+    color: 'orange',
+    type: 'chart',
+    title: 'Продажи',
+    chartData: [30, 45, 35, 50, 55, 40, 65],
+    chartValue: '+23%'
+  },
+  {
+    size: '1x2',
+    color: 'pink',
+    type: 'list',
+    title: 'События',
+    items: [
+      { text: 'Заказ #1234', value: '2 мин' },
+      { text: 'Новый клиент', value: '5 мин' },
+      { text: 'Оплата', value: '12 мин' }
+    ]
+  }
+]
+</script>
+
+<template>
+  <header>
+    <Button variant="primary" @click="showDialog = true">Диалог</Button>
+    <Button variant="secondary" @click="notify('success', 'Операция выполнена')">Success</Button>
+    <Button variant="outline" @click="notify('info', 'Новое уведомление')">Info</Button>
+  </header>
+
+  <Skeleton v-if="isLoading" variant="tiles-grid" :count="8" />
+  <TilesContainer v-else :tiles="tiles" max-width="1200px" />
+
+  <Toast ref="toastRef" />
+
+  <Dialog v-model="showDialog" title="Информация">
+    <Input v-model="name" label="ФИО" placeholder="Имя" />
+    <template #footer>
+      <Button size="small" variant="secondary" @click="showDialog = false">Отмена</Button>
+      <Button size="small" variant="primary" @click="showDialog = false; notify('success', 'Сохранено')">
+        Сохранить
+      </Button>
+    </template>
+  </Dialog>
+</template>
+```
+
+Пропсы тайлов, которые крутят демо:
+
+- `progress` — `progressPercent` (0–100), полоска рисуется CSS
+- `chart` — `chartData: number[]` (sparkline) и `chartValue` (подпись). Путь SVG считает компонент
+- `timer` — `timerTarget`: timestamp или ISO-строка. Компонент обновляет часы/минуты/секунды каждую секунду
+- `quadrant` — `indicators`: четыре значения `danger` | `warning` | `success` | `empty`
+- `list` — `items: [{ text, value, icon? }]`
+- клик по тайлу — `clickable: true` и `onClick`
+
+Тосты: у `Toast` через `ref` вызываются `success`, `error`, `warning`, `info`.
+
+### Без Vue, только CSS
+
+Подключите `tiles-ui.min.css` и разметьте HTML классами. Таймер будет статичным, пока сами не обновите цифры. Для графика вставьте SVG `path` (пример в [CSS-FRAMEWORK.md](./CSS-FRAMEWORK.md)). Диалог показывается классом на оверлее, тост — своим HTML; логику открытия пишете сами.
+
 ## 🎯 Особенности
 
 - **Гибкие размеры тайлов**: 1×1, 2×1, 1×2, 2×2
-- **Различные типы контента**: число, заголовок+значение, иконка+значение, список и другие
+- **Различные типы контента**: число, текст, список, прогресс, таймер, график, квадрант и другие
 - **12 цветовых схем** с градиентами (второй цвет на 20% темнее первого)
 - **Бейджи** в правом верхнем углу
 - **Кликабельные тайлы** с визуальной обратной связью
@@ -208,6 +349,51 @@ pnpm preview
     { text: 'Task completed', value: '5h ago', icon: icons.task },
     { text: 'User registered', value: '1d ago', icon: icons.user }
   ]
+}
+```
+
+### `progress`
+Полоска и процент. Ширину задаёт `progressPercent`.
+
+```js
+{ size: '1x1', color: 'green', type: 'progress', title: 'CPU', progressPercent: 15 }
+```
+
+### `chart`
+Мини-график. `chartData` — массив чисел, `chartValue` — подпись снизу.
+
+```js
+{
+  size: '1x1',
+  color: 'orange',
+  type: 'chart',
+  title: 'Продажи',
+  chartData: [30, 45, 35, 50, 55, 40, 65],
+  chartValue: '+23%'
+}
+```
+
+### `timer`
+Обратный отсчёт до `timerTarget` (timestamp или ISO-дата). Тикает сам, раз в секунду.
+
+```js
+{
+  size: '1x1',
+  color: 'blue',
+  type: 'timer',
+  title: 'До старта',
+  timerTarget: Date.now() + 30 * 60 * 1000
+}
+```
+
+### `quadrant`
+Четыре квадрата. Класс цвета у тайла не нужен — работают `indicators`.
+
+```js
+{
+  size: '1x1',
+  type: 'quadrant',
+  indicators: ['danger', 'warning', 'success', 'empty']
 }
 ```
 
