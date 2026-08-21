@@ -3,7 +3,7 @@
   position: relative;
   background: var(--tile-bg);
   color: var(--tile-text);
-  padding: 12px;
+  padding: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -32,6 +32,7 @@
 .tile--2x1 {
   grid-column: span 2;
   grid-row: span 1;
+  padding-top: 14px;
 }
 
 .tile--3x1 {
@@ -42,49 +43,48 @@
 .tile--1x2 {
   grid-column: span 1;
   grid-row: span 2;
+  padding-top: 14px;
 }
 
 .tile--2x2 {
   grid-column: span 2;
   grid-row: span 2;
+  padding-top: 14px;
 }
 
-/* На мобильных устройствах ограничиваем размер больших тайлов */
 @media (max-width: 600px) {
   .tile--2x1 {
     grid-column: span 3;
   }
-  
+
   .tile--3x1 {
     grid-column: span 3;
   }
-  
+
   .tile--1x2 {
     grid-column: span 1;
     grid-row: span 2;
   }
-  
+
   .tile--2x2 {
     grid-column: span 3;
     grid-row: span 2;
   }
 }
 
-/* Бейдж */
 .tile__badge {
   position: absolute;
-  top: 0%;
-  right: 0%;
+  top: 0;
+  right: 0;
   background: rgba(255, 255, 255, 0.6);
   color: #333;
-  padding: 4px 8px;
-  font-size: 12px;
-  font-weight: 900;
+  padding: 2px 4px;
+  font-size: 8px;
+  font-weight: 600;
   z-index: 10;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Контент тайла */
 .tile__content {
   flex: 1;
   display: flex;
@@ -94,7 +94,6 @@
   height: 100%;
 }
 
-/* Тип: только число */
 .tile__content--number {
   justify-content: center;
 }
@@ -111,7 +110,6 @@
   font-size: 64px;
 }
 
-/* Тип: заголовок и значение */
 .tile__content--title-value {
   justify-content: space-between;
   align-items: flex-start;
@@ -137,7 +135,6 @@
   font-size: 42px;
 }
 
-/* Тип: иконка и значение */
 .tile__content--icon-value {
   gap: 12px;
   justify-content: center;
@@ -161,7 +158,6 @@
   height: 48px;
 }
 
-/* Тип: заголовок, иконка и значение */
 .tile__content--title-icon-value {
   justify-content: space-between;
   align-items: flex-start;
@@ -179,7 +175,6 @@
   margin-top: auto;
 }
 
-/* Тип: текст */
 .tile__content--text {
   justify-content: center;
   text-align: center;
@@ -196,7 +191,6 @@
   font-size: 18px;
 }
 
-/* Тип: заголовок и текст */
 .tile__content--title-text {
   align-items: flex-start;
   justify-content: space-between;
@@ -207,7 +201,6 @@
   font-size: 14px;
 }
 
-/* Тип: список */
 .tile__content--list {
   align-items: flex-start;
   justify-content: flex-start;
@@ -258,7 +251,243 @@
   opacity: 0.9;
 }
 
-/* Цвета тайлов */
+/* Chart */
+.tile__content--chart {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tile__chart-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  position: relative;
+}
+
+.tile__chart-svg {
+  width: 100%;
+  height: 28px;
+  opacity: 0.9;
+}
+
+.tile__chart-value {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.tile--2x1 .tile__chart-svg,
+.tile--2x2 .tile__chart-svg {
+  height: 40px;
+}
+
+.tile--2x1 .tile__chart-value,
+.tile--2x2 .tile__chart-value {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+/* Progress */
+.tile__content--progress {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tile__progress-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.tile__progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tile__progress-fill {
+  height: 100%;
+  background: currentColor;
+  opacity: 0.9;
+  transition: width 0.5s ease;
+}
+
+.tile__progress-value {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tile--2x1 .tile__progress-value,
+.tile--2x2 .tile__progress-value {
+  font-size: 36px;
+}
+
+/* Image */
+.tile__content--image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0;
+  align-items: flex-start;
+  justify-content: flex-end;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.tile__image-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.tile__image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+  z-index: 1;
+}
+
+.tile__image-text {
+  position: relative;
+  z-index: 2;
+  padding: 12px;
+  width: 100%;
+}
+
+.tile__image-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.tile__image-subtitle {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.tile__image-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 3;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+/* Timer */
+.tile__content--timer {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tile__timer-display {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 100%;
+}
+
+.tile__timer-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 30px;
+}
+
+.tile__timer-value {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+  font-family: monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.tile__timer-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.tile--2x1 .tile__timer-value,
+.tile--2x2 .tile__timer-value {
+  font-size: 42px;
+}
+
+.tile--2x1 .tile__timer-label,
+.tile--2x2 .tile__timer-label {
+  font-size: 12px;
+}
+
+/* Quadrant */
+.tile.tile--type-quadrant {
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.tile--type-quadrant .tile__content--quadrant {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  gap: 8px;
+}
+
+.tile__quadrant {
+  width: 100%;
+  height: 100%;
+}
+
+.tile__quadrant--danger {
+  background: linear-gradient(135deg, #c9283a 0%, #a1202e 100%);
+}
+
+.tile__quadrant--warning {
+  background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+}
+
+.tile__quadrant--success {
+  background: linear-gradient(135deg, #00a629 0%, #008521 100%);
+}
+
+.tile__quadrant--empty {
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+}
+
+/* Colors */
 .tile--color-blue {
   --tile-bg: linear-gradient(135deg, #4a5fc7 0%, #3b4c9f 100%);
   --tile-text: #ffffff;
@@ -321,4 +550,149 @@
 
 .tile {
   background: var(--tile-bg);
+}
+
+@media (max-width: 600px) {
+  .tile__number {
+    font-size: 48px;
+  }
+
+  .tile__value {
+    font-size: 24px;
+  }
+
+  .tile__title {
+    font-size: 16px;
+  }
+
+  .tile__text {
+    font-size: 16px;
+  }
+
+  .tile__icon-svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tile__timer-display {
+    font-size: 24px;
+    gap: 4px;
+  }
+
+  .tile__timer-value {
+    font-size: 24px;
+    font-family: monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tile__timer-label {
+    font-size: 12px;
+  }
+
+  .tile__timer-unit {
+    min-width: 16px;
+  }
+
+  .tile__progress-value {
+    font-size: 16px;
+  }
+
+  .tile__chart-value {
+    font-size: 27px;
+  }
+
+  .tile__list-value,
+  .tile__list-text {
+    font-size: 13px;
+  }
+
+  .tile__badge {
+    font-size: 12px;
+    padding: 2px 4px;
+  }
+
+  .tile--2x1 .tile__number,
+  .tile--3x1 .tile__number,
+  .tile--2x2 .tile__number {
+    font-size: 52px;
+  }
+
+  .tile--2x1 .tile__value,
+  .tile--3x1 .tile__value,
+  .tile--2x2 .tile__value {
+    font-size: 32px;
+  }
+
+  .tile--2x1 .tile__text,
+  .tile--3x1 .tile__text,
+  .tile--2x2 .tile__text {
+    font-size: 16px;
+  }
+
+  .tile--2x1 .tile__icon-svg,
+  .tile--3x1 .tile__icon-svg,
+  .tile--2x2 .tile__icon-svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .tile--2x1 .tile__chart-value,
+  .tile--2x2 .tile__chart-value {
+    font-size: 28px;
+  }
+
+  .tile--2x1 .tile__chart-svg,
+  .tile--2x2 .tile__chart-svg {
+    height: 32px;
+  }
+
+  .tile--2x1 .tile__timer-value,
+  .tile--2x2 .tile__timer-value {
+    font-size: 32px;
+  }
+
+  .tile--2x1 .tile__timer-label,
+  .tile--2x2 .tile__timer-label {
+    font-size: 12px;
+  }
+
+  .tile {
+    aspect-ratio: 1 / 1;
+  }
+
+  .tile--2x1,
+  .tile--3x1 {
+    aspect-ratio: 2 / 1;
+    grid-column: span 2;
+    padding-top: 22px;
+  }
+
+  .tile--1x2 {
+    aspect-ratio: 1 / 2;
+    grid-row: span 2;
+  }
+
+  .tile--2x2 {
+    aspect-ratio: 1 / 1;
+    grid-column: span 2;
+    grid-row: span 2;
+    padding-top: 22px;
+  }
+
+  .tile--clickable {
+    transition: none;
+  }
+
+  .tile--clickable:hover {
+    transform: none;
+  }
+
+  .tile--clickable:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  .tile__progress-bar {
+    transition: none;
+  }
 }

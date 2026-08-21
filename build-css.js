@@ -7,7 +7,10 @@ const cssFiles = [
   'src/styles/tile.css',
   'src/styles/tiles-container.css',
   'src/styles/button.css',
-  'src/styles/dialog.css'
+  'src/styles/dialog.css',
+  'src/styles/input.css',
+  'src/styles/toast.css',
+  'src/styles/skeleton.css'
 ]
 
 let combinedCSS = '/* Tiles UI - CSS Framework */\n\n'

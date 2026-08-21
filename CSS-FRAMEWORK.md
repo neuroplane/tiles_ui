@@ -89,6 +89,63 @@ import 'tiles-ui/css'
       </ul>
     </div>
   </div>
+
+  <!-- Прогресс -->
+  <div class="tile tile--1x1 tile--color-green">
+    <div class="tile__content tile__content--progress">
+      <div class="tile__title">CPU</div>
+      <div class="tile__progress-container">
+        <div class="tile__progress-bar">
+          <div class="tile__progress-fill" style="width: 15%"></div>
+        </div>
+        <div class="tile__progress-value">15%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Таймер (цифры обновляет ваш JS, CSS только рисует) -->
+  <div class="tile tile--1x1 tile--color-blue">
+    <div class="tile__content tile__content--timer">
+      <div class="tile__title">До старта</div>
+      <div class="tile__timer-display">
+        <div class="tile__timer-unit">
+          <span class="tile__timer-value">00</span>
+          <span class="tile__timer-label">ч</span>
+        </div>
+        <div class="tile__timer-unit">
+          <span class="tile__timer-value">29</span>
+          <span class="tile__timer-label">м</span>
+        </div>
+        <div class="tile__timer-unit">
+          <span class="tile__timer-value">06</span>
+          <span class="tile__timer-label">с</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Квадрант -->
+  <div class="tile tile--1x1 tile--type-quadrant">
+    <div class="tile__content tile__content--quadrant">
+      <div class="tile__quadrant tile__quadrant--success"></div>
+      <div class="tile__quadrant tile__quadrant--success"></div>
+      <div class="tile__quadrant tile__quadrant--success"></div>
+      <div class="tile__quadrant tile__quadrant--danger"></div>
+    </div>
+  </div>
+
+  <!-- Sparkline: path считаете сами или берёте из Vue-компонента -->
+  <div class="tile tile--1x1 tile--color-orange">
+    <div class="tile__content tile__content--chart">
+      <div class="tile__title">Продажи</div>
+      <div class="tile__chart-container">
+        <svg class="tile__chart-svg" viewBox="0 0 100 30" preserveAspectRatio="none">
+          <path d="M0,28 L16.7,20.2 L33.3,12.4 L50,25.4 L66.7,2 L83.3,15 L100,7.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <div class="tile__chart-value">+23%</div>
+      </div>
+    </div>
+  </div>
 </div>
 ```
 
@@ -183,6 +240,11 @@ import 'tiles-ui/css'
 - `.tile__content--text` - только текст (`.tile__text`)
 - `.tile__content--title-text` - заголовок и текст
 - `.tile__content--list` - список элементов (`.tile__list`, `.tile__list-item`)
+- `.tile__content--chart` - sparkline (`.tile__chart-svg`, `.tile__chart-value`)
+- `.tile__content--progress` - прогресс-бар (`.tile__progress-bar`, `.tile__progress-fill`)
+- `.tile__content--timer` - таймер (`.tile__timer-display`, `.tile__timer-value`)
+- `.tile__content--quadrant` - 4 квадрата (`.tile__quadrant--danger|warning|success|empty`)
+- `.tile__content--image` - фон-картинка (`.tile__image-bg`, `.tile__image-title`)
 
 ### Кнопки
 <!-- 
@@ -201,7 +263,7 @@ import 'tiles-ui/css'
 
 <!-- 
   Контейнер использует CSS Grid с автоматическим заполнением пустот.
-  На мобильных устройствах (до 600px) сетка переключается на 3 колонки.
+  На мобильных устройствах (до 600px) сетка переключается на 2 колонки.
 -->
 ```html
 <div class="tiles-container" style="max-width: 1200px;">
@@ -266,8 +328,8 @@ font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, O
 
 <!-- 
   На мобильных устройствах (max-width: 600px):
-  - Сетка переключается на 3 колонки
-  - Тайлы 2x1, 3x1 и 2x2 занимают всю ширину (3 колонки)
+  - Сетка переключается на 2 колонки
+  - Тайлы 2x1, 3x1 и 2x2 занимают 2 колонки
   - Gap уменьшается до 8px
   - Padding уменьшается до 10px
 -->

@@ -47,34 +47,4 @@ const handleTileClick = (tile, index) => {
 }
 </script>
 
-<style scoped>
-.tiles-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 140px);
-  grid-auto-rows: 140px;
-  grid-auto-flow: dense;
-  gap: 12px;
-  padding: 20px;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  justify-content: center;
-}
-
-/* Для адаптивности на больших экранах - больше колонок */
-@media (min-width: 1400px) {
-  .tiles-container {
-    grid-template-columns: repeat(auto-fill, 140px);
-  }
-}
-
-/* Для маленьких экранов */
-@media (max-width: 600px) {
-  .tiles-container {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: auto;
-    padding: 10px;
-    gap: 8px;
-  }
-}
-</style>
+<style src="../styles/tiles-container.css"></style>
