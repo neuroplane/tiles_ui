@@ -1,6 +1,62 @@
-# Metro UI Tiles
+# Tiles UI
 
-Современный интерфейс на основе тайлов в стиле Metro UI, построенный на Vue 3 + Vite.
+Современный интерфейс на основе тайлов. Пакет можно использовать как **чистый CSS-фреймворк** или как **Vue 3 компоненты**.
+
+Демо: [tiles.tagban.ru](https://tiles.tagban.ru)
+
+![Tiles UI](https://images.x125.ru/images/6ec23035-6ae6-4713-a453-23e365c73c96.jpg)
+
+## Установка
+
+```bash
+npm install tiles-ui
+# или
+pnpm add tiles-ui
+```
+
+### CSS (любой стек)
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/tiles-ui/dist/css/tiles-ui.min.css">
+```
+
+```js
+import 'tiles-ui/css'
+```
+
+HTML-классы, кнопки и диалоги описаны в [CSS-FRAMEWORK.md](./CSS-FRAMEWORK.md).
+
+### Vue 3
+
+Нужен бандлер, который умеет компилировать `.vue` (Vite, Nuxt, Vue CLI).
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { TilesContainer } from 'tiles-ui'
+
+const tiles = ref([
+  { size: '1x1', color: 'blue', type: 'number', number: 42, badge: 'New' },
+  { size: '2x1', color: 'green', type: 'title-value', title: 'Total Revenue', value: '$12,450' }
+])
+</script>
+
+<template>
+  <TilesContainer :tiles="tiles" max-width="1200px" />
+</template>
+```
+
+Или подключить все компоненты сразу:
+
+```js
+import { createApp } from 'vue'
+import TilesUI from 'tiles-ui'
+import App from './App.vue'
+
+createApp(App).use(TilesUI).mount('#app')
+```
+
+Глобальные имена плагина: `Tile`, `TilesContainer`, `TilesButton`, `TilesDialog`, `TilesInput`, `TilesToast`, `TilesSkeleton`.
 
 ## 🎯 Особенности
 
@@ -20,7 +76,7 @@
 - **Vite** - быстрый сборщик и dev-сервер
 - **pnpm** - эффективный менеджер пакетов
 
-## 🚀 Быстрый старт
+## 🚀 Разработка
 
 ### Установка зависимостей
 
@@ -250,12 +306,21 @@ tiles_ui/
 └── vite.config.js
 ```
 
+## 📦 Что входит в пакет
+
+| Импорт | Назначение |
+| --- | --- |
+| `tiles-ui` | Vue 3 компоненты (`Tile`, `TilesContainer`, `Button`, `Dialog`, `Input`, `Toast`, `Skeleton`) |
+| `tiles-ui/css` | Полный CSS-бандл |
+| `tiles-ui/css.min` | Минифицированный CSS |
+| `tiles-ui/styles/tile.css` | Отдельные исходники стилей |
+
 ## 💡 Пример использования
 
 ```vue
 <script setup>
 import { ref } from 'vue'
-import TilesContainer from './components/TilesContainer.vue'
+import { TilesContainer } from 'tiles-ui'
 
 const tiles = ref([
   {

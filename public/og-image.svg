@@ -40,7 +40,7 @@
   <text x="700" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="80" font-weight="300" fill="#aaddff">UI</text>
   
   <!-- Описание -->
-  <text x="700" y="430" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#88aabb">Metro UI Style Tile Components</text>
+  <text x="700" y="430" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#88aabb">Tile Components</text>
   
   <!-- URL -->
   <text x="700" y="520" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#667799">tiles.tagban.ru</text>

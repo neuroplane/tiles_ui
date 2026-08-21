@@ -1,0 +1,19 @@
+# Demo app and tooling — not part of the published package
+index.html
+public
+deploy.sh
+generate-og.js
+update-version.js
+version.json
+vite.config.js
+vite.config.css.js
+.storybook
+**/*.stories.js
+src/App.vue
+src/main.js
+src/style.css
+src/assets
+pnpm-lock.yaml
+.vscode
+.DS_Store
+*.local

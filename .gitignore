@@ -25,3 +25,6 @@ dist-ssr
 
 # Deployment scripts
 # deploy.sh
+
+# npm pack output
+*.tgz

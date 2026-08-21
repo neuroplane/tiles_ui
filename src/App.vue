@@ -205,7 +205,7 @@ const tiles = computed(() => {
   <div class="app">
     <!-- Шапка с кнопками демонстрации -->
     <header class="app-header">
-      <h1>Metro UI Тайлы</h1>
+      <h1>Tiles UI</h1>
       <span class="app-version">v{{ versionData.date }}.{{ versionData.deployCount }}</span>
       <p>Современный тайловый интерфейс с типами: number, text, progress, timer, quadrant, title-value, chart, list, title-text</p>
       <div class="demo-controls" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; justify-content: center;">

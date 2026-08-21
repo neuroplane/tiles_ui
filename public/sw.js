@@ -1,4 +1,4 @@
-// Service Worker for Metro UI Tiles PWA
+// Service Worker for Tiles UI PWA
 const CACHE_NAME = 'tiles-ui-v1'
 const STATIC_ASSETS = [
   '/',
@@ -143,7 +143,7 @@ self.addEventListener('push', (event) => {
   }
   
   event.waitUntil(
-    self.registration.showNotification('Metro UI Tiles', options)
+    self.registration.showNotification('Tiles UI', options)
   )
 })
 

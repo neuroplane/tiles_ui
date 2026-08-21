@@ -10,7 +10,7 @@ const cssFiles = [
   'src/styles/dialog.css'
 ]
 
-let combinedCSS = '/* Tiles UI - Metro UI CSS Framework */\n\n'
+let combinedCSS = '/* Tiles UI - CSS Framework */\n\n'
 
 cssFiles.forEach(file => {
   const content = readFileSync(resolve(process.cwd(), file), 'utf-8')

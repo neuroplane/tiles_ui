@@ -1,7 +1,7 @@
 {
-  "name": "Metro UI Tiles",
+  "name": "Tiles UI",
   "short_name": "TilesUI",
-  "description": "Современный интерфейс на основе тайлов в стиле Metro UI",
+  "description": "Современный интерфейс на основе тайлов",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0c1823",

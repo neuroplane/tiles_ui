@@ -1,24 +1,87 @@
 {
-  "name": "tiles_ui",
-  "private": true,
-  "version": "0.0.0",
+  "name": "tiles-ui",
+  "version": "0.1.1",
+  "description": "Tiles CSS framework and Vue 3 components for dashboards and tile-based layouts",
+  "keywords": [
+    "tiles",
+    "css",
+    "css-framework",
+    "vue",
+    "vue3",
+    "ui",
+    "dashboard",
+    "components"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Aleksey Boyarkin",
+    "url": "https://github.com/neuroplane"
+  },
+  "homepage": "https://tiles.tagban.ru",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neuroplane/tiles_ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neuroplane/tiles_ui/issues"
+  },
   "type": "module",
-  "main": "./dist/css/tiles-ui.css",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "types": "./src/index.d.ts",
   "style": "./dist/css/tiles-ui.css",
+  "unpkg": "./dist/css/tiles-ui.min.css",
+  "jsdelivr": "./dist/css/tiles-ui.min.css",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./css": "./dist/css/tiles-ui.css",
+    "./css.min": "./dist/css/tiles-ui.min.css",
+    "./style.css": "./dist/css/tiles-ui.css",
+    "./dist/css/tiles-ui.css": "./dist/css/tiles-ui.css",
+    "./dist/css/tiles-ui.min.css": "./dist/css/tiles-ui.min.css",
+    "./styles/*": "./src/styles/*",
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist/css",
-    "src/styles"
+    "src/styles",
+    "src/index.js",
+    "src/index.d.ts",
+    "src/components/*.vue",
+    "CSS-FRAMEWORK.md",
+    "LICENSE"
   ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.vue"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "build:css": "node build-css.js",
+    "prepack": "node build-css.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "dependencies": {
-    "vue": "^3.5.24"
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.6.14",
@@ -32,6 +95,7 @@
     "chromatic": "^11.0.0",
     "playwright": "^1.60.0",
     "storybook": "^8.6.14",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vue": "^3.5.24"
   }
 }

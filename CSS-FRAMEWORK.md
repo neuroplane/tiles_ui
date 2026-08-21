@@ -1,37 +1,36 @@
-# Tiles UI - Metro UI CSS Framework
+# Tiles UI - CSS Framework
 
 <!-- 
-  Tiles UI - это CSS фреймворк в стиле Metro UI для создания современных интерфейсов на основе тайлов.
+  Tiles UI - это CSS фреймворк для создания современных интерфейсов на основе тайлов.
   Можно использовать как чистый CSS фреймворк без Vue компонентов.
 -->
 
 ## 📦 Установка
 
-<!-- Вариант 1: Через npm (если опубликовано) -->
 ```bash
 npm install tiles-ui
 ```
 
-<!-- Вариант 2: Прямое использование CSS файла -->
-Скопируйте файл `dist/css/tiles-ui.css` в ваш проект.
+Либо подключите CSS с CDN:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/tiles-ui/dist/css/tiles-ui.min.css">
+```
 
 ## 🚀 Использование
 
 ### 1. Подключение CSS
 
-<!-- В HTML -->
 ```html
-<link rel="stylesheet" href="path/to/tiles-ui.css">
+<link rel="stylesheet" href="https://unpkg.com/tiles-ui/dist/css/tiles-ui.min.css">
 ```
 
-<!-- В CSS/SCSS -->
 ```css
-@import 'tiles-ui/dist/css/tiles-ui.css';
+@import 'tiles-ui/css';
 ```
 
-<!-- В JavaScript (если используете bundler) -->
 ```javascript
-import 'tiles-ui/dist/css/tiles-ui.css'
+import 'tiles-ui/css'
 ```
 
 ### 2. Использование классов
@@ -366,7 +365,7 @@ pnpm run build:css
   - CSS переменные для цветов (легкая кастомизация)
   - Адаптивный дизайн с медиа-запросами
   - Градиенты для всех цветов (второй цвет на 20% темнее)
-  - Квадратные углы в стиле Metro UI
+  - Квадратные углы
   - Uppercase текст для заголовков и кнопок
 -->
 
