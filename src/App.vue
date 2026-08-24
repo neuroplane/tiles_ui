@@ -153,42 +153,91 @@ const icons = {
 // title-icon-value (заголовок-иконка-значение)
 // title-text (заголовок-текст)
 // title-value (заголовок-значение)
+// chart (график)
+// progress (прогресс)
+// timer (таймер)
+// quadrant (квадрант)
+// image (фоновое изображение)
 // Базовое определение тайлов (без onClick)
+const demoTimer = (minutes) => Date.now() + minutes * 60 * 1000
+const demoTimerDays = (days, hours = 0) => Date.now() + (days * 24 * 60 + hours * 60) * 60 * 1000
+
 const rawTiles = [
-  // ============================================
-  // РЯД 1: Метрики 1×1
-  // ============================================
-  { size: '1x1', color: 'red', type: 'number', number: 500, badge: 'ДОЛГИ' },
-  { size: '1x1', color: 'blue', type: 'number', number: 2, badge: 'НА СМЕНЕ' },
-  { size: '1x1', color: 'blue', type: 'number', number: '—', badge: 'НА ЛЬДУ' },
-  { size: '1x1', color: 'orange', type: 'number', number: 3, badge: 'АКТИВНЫХ ЗАДАЧ' },
-  { size: '1x1', color: 'green', type: 'number', number: 0, badge: 'ОНЛАЙН-ЗАКАЗЫ' },
-  { size: '1x1', color: 'purple', type: 'number', number: 121, badge: 'ДОГОВОРОВ' },
-  { size: '1x1', color: 'teal', type: 'number', number: '80%', badge: 'ЯВКА' },
+  // --- Ряд 1: базовые 1×1 ---
+  { size: '1x1', color: 'blue', type: 'number', number: 42, badge: 'NEW' },
+  { size: '1x1', color: 'red', type: 'text', text: 'ВАЖНО' },
+  { size: '1x1', color: 'purple', type: 'icon-value', icon: icons.user, value: '1.2k', badge: '↑' },
+  { size: '1x1', color: 'lime', type: 'progress', title: 'CPU', progressPercent: 15 },
+  { size: '1x1', color: 'cyan', type: 'timer', title: 'До старта', timerTarget: demoTimer(30) },
+  { size: '1x1', color: 'indigo', type: 'quadrant', indicators: ['success', 'success', 'warning', 'danger'] },
+  { size: '1x1', color: 'orange', type: 'chart', title: 'Продажи', chartData: [30, 45, 35, 50, 55], chartValue: '+23%' },
+  { size: '1x1', color: 'pink', type: 'icon-value', icon: icons.heart, value: '156' },
 
-  // ============================================
-  // РЯД 2: Широкие плитки
-  // ============================================
-  { size: '2x1', color: 'purple', type: 'title-value', badge: 'ОПЛАТА ДОЛГОВ', value: 'Нет платежей' },
-  { size: '2x2', color: 'green', type: 'list', badge: 'ОНЛАЙН БИЛЕТЫ', items: [
-    { text: '17.05.2026 · 13:30', value: '1' },
-    { text: '17.05.2026 · 12:15', value: '1' },
+  // --- Ряд 2: широкие и смешанные ---
+  { size: '2x1', color: 'teal', type: 'title-value', title: 'Выручка', value: '124 500 ₽', badge: '+12%' },
+  { size: '2x1', color: 'green', type: 'chart', title: 'Трафик за неделю', chartData: [20, 35, 28, 42, 38, 55, 48], chartValue: '12.4k' },
+  { size: '1x1', color: 'amber', type: 'number', number: '99%', badge: 'SLA' },
+  { size: '1x1', color: 'yellow', type: 'text', text: 'HOT' },
+  { size: '2x1', color: 'pink', type: 'title-icon-value', title: 'Рейтинг', icon: icons.star, value: '4.9', badge: 'TOP' },
+
+  // --- Ряд 3: высокие 1×2 ---
+  { size: '1x2', color: 'yellow', type: 'title-text', title: 'Уведомления', text: 'У вас 5 новых сообщений, 2 задачи и 1 напоминание о встрече в 15:00' },
+  { size: '1x2', color: 'indigo', type: 'icon-value', icon: icons.bell, value: '24', badge: 'NEW' },
+  { size: '1x2', color: 'lime', type: 'progress', title: 'Диск', progressPercent: 68 },
+
+  // --- Ряд 4: большие 2×2 ---
+  { size: '2x2', color: 'pink', type: 'list', title: 'События', items: [
+    { text: 'Заказ #1234', value: '2 мин', icon: icons.ticket },
+    { text: 'Новый клиент', value: '5 мин', icon: icons.user },
+    { text: 'Оплата', value: '12 мин', icon: icons.star },
+    { text: 'Отзыв', value: '18 мин', icon: icons.heart },
   ]},
-  { size: '2x1', color: 'purple', type: 'list', badge: 'ПРАЗДНИКИ', items: [
-    { text: 'День фармацевтического работника', value: '19.05' },
-    { text: 'День полярника', value: '21.05' },
+  { size: '2x2', color: 'blue', type: 'list', title: 'Активность', badge: 'Сегодня', items: [
+    { text: 'Регистрация', value: '09:30', icon: icons.user },
+    { text: 'Покупка', value: '10:15', icon: icons.ticket },
+    { text: 'Отзыв', value: '11:00', icon: icons.star },
+    { text: 'Обращение', value: '11:45', icon: icons.bell },
   ]},
 
-  // ============================================
-  // РЯД 3: Нижний ряд
-  // ============================================
-  { size: '2x1', color: 'teal', type: 'list', badge: 'ДНИ РОЖДЕНИЯ', items: [
-    { text: 'Ельбиева София', value: '13' },
-    { text: 'Афанасенко Тихон', value: '12' },
+  // --- Ряд 5: сверхширокие 3×1 ---
+  { size: '3x1', color: 'cyan', type: 'title-value', title: 'Статус системы', value: 'Все сервисы работают', badge: 'OK' },
+  { size: '3x1', color: 'red', type: 'text', text: 'Технические работы: система будет недоступна с 02:00 до 04:00. Сохраните черновики заранее.' },
+
+  // --- Ряд 6: метрики и прогресс ---
+  { size: '1x1', color: 'green', type: 'number', number: 847, badge: 'ЗАКАЗЫ' },
+  { size: '1x1', color: 'teal', type: 'quadrant', indicators: ['empty', 'success', 'success', 'success'] },
+  { size: '2x1', color: 'orange', type: 'progress', title: 'Проект Alpha', progressPercent: 75, badge: '75%' },
+  { size: '1x1', color: 'purple', type: 'icon-value', icon: icons.settings, value: 'ON' },
+  { size: '2x1', color: 'red', type: 'timer', title: 'До дедлайна', timerTarget: demoTimerDays(2, 5) },
+
+  // --- Ряд 7: финансы и команда ---
+  { size: '2x1', color: 'green', type: 'title-value', title: 'Годовой доход', value: '2 450 000 ₽', badge: '2026' },
+  { size: '2x1', color: 'indigo', type: 'title-icon-value', title: 'Команда', icon: icons.accountGroup, value: '12 чел.' },
+  { size: '1x1', color: 'amber', type: 'chart', title: 'Конверсия', chartData: [12, 18, 15, 22, 19, 25], chartValue: '3.2%' },
+  { size: '1x1', color: 'blue', type: 'number', number: 3, badge: 'ЗАДАЧИ' },
+
+  // --- Ряд 8: списки и сообщения ---
+  { size: '2x1', color: 'purple', type: 'list', title: 'Задачи', badge: '3', items: [
+    { text: 'Обновить отчёт', value: 'Сегодня', icon: icons.task },
+    { text: 'Согласовать договор', value: 'Завтра', icon: icons.ticket },
+    { text: 'Созвон с клиентом', value: '14:00', icon: icons.accountClock },
   ]},
-  { size: '2x1', color: 'green', type: 'list', badge: 'ОПЛАТЫ', items: [
-    { text: 'Школа: Хоккей Младшая [Тубеев]', value: '9 500' },
+  { size: '2x1', color: 'amber', type: 'title-text', title: 'Системное сообщение', text: 'Плановое обслуживание серверов запланировано на выходные. Ожидайте кратковременных перерывов.' },
+  { size: '1x1', color: 'teal', type: 'icon-value', icon: icons.chart, value: '+18%' },
+  { size: '1x1', color: 'pink', type: 'progress', title: 'RAM', progressPercent: 42 },
+
+  // --- Ряд 9: акцентные комбинации ---
+  { size: '2x2', color: 'teal', type: 'title-icon-value', title: 'Поддержка', icon: icons.bell, value: 'Среднее время ответа 4 мин', badge: 'LIVE' },
+  { size: '1x2', color: 'orange', type: 'list', title: 'Онлайн-кассы', items: [
+    { text: '18:30', value: 'В3 · Д1 · К2' },
+    { text: '19:00', value: '1 · 1 · 2' },
+    { text: '19:30', value: '2 · 1 · 2' },
+    { text: '20:00', value: '3 · 1 · 2' },
   ]},
+  { size: '1x1', color: 'cyan', type: 'text', text: 'LIVE' },
+  { size: '1x1', color: 'red', type: 'quadrant', indicators: ['danger', 'warning', 'warning', 'success'] },
+  { size: '2x1', color: 'yellow', type: 'title-value', title: 'Средний чек', value: '3 890 ₽', badge: '↑ 8%' },
+  { size: '1x1', color: 'green', type: 'timer', title: 'Смена', timerTarget: demoTimer(480) },
 ]
 
 // Добавляем clickable и onClick каждому тайлу
@@ -207,7 +256,7 @@ const tiles = computed(() => {
     <header class="app-header">
       <h1>Tiles UI</h1>
       <span class="app-version">v{{ versionData.date }}.{{ versionData.deployCount }}</span>
-      <p>Современный тайловый интерфейс с типами: number, text, progress, timer, quadrant, title-value, chart, list, title-text</p>
+      <p>Современный тайловый интерфейс: number, text, icon-value, progress, timer, quadrant, chart, list, title-value, title-text, title-icon-value</p>
       <div class="demo-controls" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; justify-content: center;">
         <Button variant="primary" @click="showDialog = true">ДИАЛОГ</Button>
         <Button variant="secondary" @click="showToast('success', 'Операция выполнена успешно!')">SUCCESS</Button>
@@ -218,7 +267,7 @@ const tiles = computed(() => {
 
     <!-- Skeleton Loading (показывается 2 сек при загрузке) -->
     <div v-if="isLoading" class="skeleton-wrapper">
-      <Skeleton variant="tiles-grid" :count="8" />
+      <Skeleton variant="tiles-grid" :count="16" />
     </div>
     
     <!-- Контейнер тайлов -->
